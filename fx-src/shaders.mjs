@@ -1,66 +1,9 @@
 // WGSL for the site's two effects. build.mjs prepares these at build time, so the
 // browser never loads the WGSL parser.
 
-// Hero background: a few soft strands drifting like noodles in broth. The pointer
-// pulls them toward it and lights them up; `pulse` brightens them once a second
-// with the countdown. Output is premultiplied, so the page colour shows through.
-export const strands = /* wgsl */ `
-struct P {
-  res: vec2f,
-  ptr: vec2f,
-  time: f32,
-  pulse: f32,
-  hover: f32,
-  strength: f32,
-  c1: vec4f,
-  c2: vec4f,
-};
-@group(0) @binding(0) var<uniform> p: P;
-
-fn strand(x: f32, i: f32, t: f32) -> f32 {
-  let a = 0.13 + 0.03 * sin(i * 2.1);
-  return 0.5 + (i - 2.0) * 0.07
-    + a * sin(x * (1.6 + i * 0.23) + t * (0.22 + i * 0.03) + i * 1.7)
-    + 0.05 * sin(x * 3.7 - t * 0.31 + i * 2.9);
-}
-
-@fragment fn fs_main(@location(0) uv0: vec2f) -> @location(0) vec4f {
-  let uv = uv0;
-  let aspect = p.res.x / max(p.res.y, 1.0);
-  let q = vec2f(uv.x * aspect, uv.y);
-  let m = vec2f(p.ptr.x * aspect, p.ptr.y);
-  let t = p.time;
-  var col = vec3f(0.0);
-  var alpha = 0.0;
-  for (var k = 0; k < 5; k++) {
-    let i = f32(k);
-    var y = strand(q.x, i, t);
-    // Pull toward the pointer, strongest close by.
-    let dx = q.x - m.x;
-    let near = exp(-dx * dx * 6.0) * p.hover;
-    y = mix(y, m.y, near * 0.22);
-    let d = abs(q.y - y);
-    let w = 0.006 + 0.004 * i / 4.0;
-    let core = exp(-(d * d) / (w * w));
-    let glow = exp(-(d * d) / (w * w * 40.0)) * 0.22;
-    let near2 = exp(-dot(q - m, q - m) * 7.0) * p.hover;
-    let tint = mix(p.c1.rgb, p.c2.rgb, clamp(uv.x * 0.8 + i * 0.05, 0.0, 1.0));
-    let a = (core * 0.55 + glow) * (0.5 + near2 * 0.9 + p.pulse * 0.35);
-    col += tint * a;
-    alpha += a;
-  }
-  // Fade out toward the edges so the strands never end in a hard line.
-  // Mostly on the right, so the headline on the left stays easy to read.
-  let edge = smoothstep(0.12, 0.62, uv.x) * smoothstep(1.0, 0.85, uv.x)
-    * smoothstep(0.0, 0.25, uv.y) * smoothstep(1.0, 0.75, uv.y);
-  let a = clamp(alpha, 0.0, 1.0) * edge * p.strength;
-  return vec4f(col * edge * p.strength, a);
-}
-`
-
 // CRT post effect over a flat Classic 98 screenshot. Ported from Noodle's own CRT
 // skin shader (src/preload/crt.ts): curvature, bloom, scanlines, aperture grille,
-// vignette and a little flicker, plus a power-on sweep driven by `power`.
+// and vignette. `power` is kept at 1: the picture is simply on.
 export const crt = /* wgsl */ `
 struct U {
   res: vec2f,
@@ -117,9 +60,6 @@ fn tap(uv: vec2f) -> vec3f {
 
   let vc = uv - vec2f(0.5);
   col = col * (1.0 - dot(vc, vc) * (0.35 + u.curvature * 0.7));
-  col = col * (1.0 - 0.035 * (0.5 + 0.5 * sin(u.time * 113.0)));
-  // Rolling bar, very faint.
-  col = col * (1.0 + 0.03 * smoothstep(0.0, 0.08, 0.08 - abs(fract(uv.y - u.time * 0.12) - 0.5)));
 
   col = col * mix(5.0, 1.0, smoothstep(0.0, 0.9, u.power));
   let edge = min(min(uv.x, 1.0 - uv.x) * u.res.x, min(uv.y, 1.0 - uv.y) * u.res.y);

@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en" data-launch="2026-11-05T18:00:00+05:30" data-base="/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Userscripts in Noodle: GM API and agent tools</title>
+<meta name="description" content="Run Tampermonkey and Violentmonkey userscripts in Noodle: the header, the GM API, permissions, and tools that AI agents can call.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#111014" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f3ed" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://noodle.udaysinh.me/docs/userscripts/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Noodle">
+<meta property="og:locale" content="en">
+<meta property="og:title" content="Userscripts in Noodle: GM API and agent tools">
+<meta property="og:description" content="Run Tampermonkey and Violentmonkey userscripts in Noodle: the header, the GM API, permissions, and tools that AI agents can call.">
+<meta property="og:url" content="https://noodle.udaysinh.me/docs/userscripts/">
+<meta property="og:image" content="https://noodle.udaysinh.me/assets/og/docs-userscripts.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Userscripts in Noodle: GM API and agent tools, with a screenshot of the Noodle browser">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Userscripts in Noodle: GM API and agent tools">
+<meta name="twitter:description" content="Run Tampermonkey and Violentmonkey userscripts in Noodle: the header, the GM API, permissions, and tools that AI agents can call.">
+<meta name="twitter:image" content="https://noodle.udaysinh.me/assets/og/docs-userscripts.jpg">
+<meta name="twitter:image:alt" content="Userscripts in Noodle: GM API and agent tools, with a screenshot of the Noodle browser">
+<link rel="preload" href="/assets/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('noodle-site-theme');if(t==='light'||t==='dark')d.dataset.theme=t;var s=localStorage.getItem('noodle-site-skin');if(s==='98'||s==='phosphor'||s==='paper')d.dataset.skin=s}catch(e){}
+var O=['index','features','skins','compare','docs','faq','privacy','download'],R=matchMedia('(prefers-reduced-motion: reduce)');
+function P(u){try{return new URL(u).pathname.split('/').filter(Boolean)[0]||'index'}catch(e){return 'index'}}
+function H(){document.querySelectorAll('.page-shot').forEach(function(el){var r=el.getBoundingClientRect();if(!r.width)return;el.style.viewTransitionName=r.bottom>0&&r.top<innerHeight?'':'none'})}
+addEventListener('pageswap',function(e){if(e.viewTransition)H()});
+addEventListener('pagereveal',function(e){var v=e.viewTransition;if(!v)return;if(R.matches){v.skipTransition();return}H();var a=window.navigation&&navigation.activation;if(a&&a.from&&a.entry){var f=O.indexOf(P(a.from.url)),t=O.indexOf(P(a.entry.url));var b=a.navigationType==='traverse'?t<f:f>t&&t!==-1;v.types&&v.types.add(b?'back':'forward')}})})();</script>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/assets/*"}},{"not":{"href_matches":"*.ics"}}]},"eagerness":"moderate"}]}</script>
+<script src="/assets/site.js" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://noodle.udaysinh.me/#website","name":"Noodle","url":"https://noodle.udaysinh.me/","publisher":{"@id":"https://noodle.udaysinh.me/#kurolabs"},"inLanguage":"en"},{"@type":"Organization","@id":"https://noodle.udaysinh.me/#kurolabs","name":"Kuro Labs","url":"https://kurolabs.in","sameAs":["https://github.com/udaysinh-git"]},{"@type":"TechArticle","headline":"Userscripts in Noodle: GM API and agent tools","description":"Run Tampermonkey and Violentmonkey userscripts in Noodle: the header, the GM API, permissions, and tools that AI agents can call.","url":"https://noodle.udaysinh.me/docs/userscripts/","author":{"@id":"https://noodle.udaysinh.me/#kurolabs"},"publisher":{"@id":"https://noodle.udaysinh.me/#kurolabs"},"about":{"@id":"https://noodle.udaysinh.me/#app"},"dateModified":"2026-10-29","inLanguage":"en"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://noodle.udaysinh.me/"},{"@type":"ListItem","position":2,"name":"Docs","item":"https://noodle.udaysinh.me/docs/"},{"@type":"ListItem","position":3,"name":"Userscripts guide","item":"https://noodle.udaysinh.me/docs/userscripts/"}]}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="/"><img src="/assets/logo.svg" width="30" height="30" alt="">Noodle</a>
+    <nav class="nav" aria-label="Site"><ul><li><a href="/features/">Features</a></li><li><a href="/skins/">Skins</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li><li><a href="/faq/">FAQ</a></li><li><a href="/download/">Download</a></li></ul></nav>
+    <button class="theme-toggle needs-js" type="button" data-action="theme" aria-label="Switch theme"><span class="icon-dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><span class="icon-light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></span></button>
+  </div>
+</header>
+<main id="main">
+  <div class="wrap">
+      <article class="doc">
+        <p class="label"><a href="/docs/">Docs</a> / Userscripts guide</p>
+        <h1 id="userscripts">Userscripts</h1>
+<p>Noodle runs userscripts written for Tampermonkey and Violentmonkey without changes. Where the two managers differ, Noodle follows Violentmonkey and accepts Tampermonkey's spelling too. This page covers the header, the GM API, what Noodle adds, and how to write and debug a script.</p>
+<p>The examples live in <a href="https://github.com/udaysinh-git/noodle/blob/main/docs/examples/userscripts/"><code>examples/userscripts/</code></a>. None of them are installed for you.</p>
+<ul>
+<li><code>starter.user.js</code> shows the reading time of an article. The walkthrough below uses it.</li>
+<li><code>hide-youtube-shorts.user.js</code> hides the Shorts shelves on YouTube with <code>GM_addStyle</code>.</li>
+<li><code>youtube-transcript.user.js</code> adds a <code>get_transcript</code> tool that agents connected to Noodle can call.</li>
+</ul>
+<h2 id="installing-a-script">Installing a script</h2>
+<p>Settings &gt; Userscripts has three ways in: New or paste (an editor), From file, and an address box with Get script. Following a link to a <code>.user.js</code> file (a Greasy Fork install button, a raw GitHub file) does the same as Get script. Each way shows an install card first, with the author, the sites, what the script asks for, the hosts it may contact, the files it pulls in, its license and any warnings. A script whose <code>@name</code> and <code>@namespace</code> match an installed one is offered as an update to it.</p>
+<p>Import backup takes a Violentmonkey export zip, a Tampermonkey zip or a Tampermonkey JSON backup, with stored values and on or off states. Export all writes a zip in Violentmonkey's format, so you can move back.</p>
+<h2 id="walkthrough-the-starter-script">Walkthrough: the starter script</h2>
+<p>Open <a href="https://github.com/udaysinh-git/noodle/blob/main/docs/examples/userscripts/starter.user.js"><code>examples/userscripts/starter.user.js</code></a> next to this page. It starts with the header:</p>
+<pre class="js"><code>// ==UserScript==
+// @name         Starter: reading time
+// @namespace    noodle.examples
+// @version      1.0
+// @description  Shows how long the article on the page takes to read. Copy it and make it yours.
+// @match        https://en.wikipedia.org/wiki/*
+// @match        https://developer.mozilla.org/*
+// @run-at       document-idle
+// @grant        GM_addStyle
+// @grant        GM_getValue
+// @grant        GM_setValue
+// @grant        GM_registerMenuCommand
+// @noframes
+// ==/UserScript==</code></pre>
+<p><code>@name</code> and <code>@namespace</code> together identify the script; change both when you copy it, or Noodle will treat your copy as an update to the original. The two <code>@match</code> lines are the sites it runs on. <code>@run-at document-idle</code> runs it after the page has loaded, so the article text is there to count. Each <code>@grant</code> line unlocks one GM function.</p>
+<p>The body counts the words in the article, adds a style with <code>GM_addStyle</code> and appends a small badge:</p>
+<pre class="js"><code>const WORDS_PER_MINUTE = GM_getValue(&#39;wpm&#39;, 230)
+const article = document.querySelector(&#39;main, article, #content&#39;) ?? document.body
+const words = article.innerText.split(/\s+/).filter(Boolean).length
+const minutes = Math.max(1, Math.round(words / WORDS_PER_MINUTE))</code></pre>
+<p><code>GM_getValue('wpm', 230)</code> reads a stored value, or 230 the first time. The menu command at the end lets you change it:</p>
+<pre class="js"><code>GM_registerMenuCommand(&#39;Set reading speed&#39;, () =&gt; {
+  const answer = prompt(&#39;Words per minute&#39;, String(WORDS_PER_MINUTE))
+  const wpm = Number(answer)
+  if (answer !== null &amp;&amp; wpm &gt;= 50 &amp;&amp; wpm &lt;= 1000) {
+    GM_setValue(&#39;wpm&#39;, wpm)
+    location.reload()
+  }
+})</code></pre>
+<p>The command shows under the userscripts button in the top bar, in the command palette as "Script: Set reading speed", and under Userscripts in the page's context menu. The value is saved per script in the encrypted profile and is there after a restart.</p>
+<p>To try it: Settings &gt; Userscripts &gt; From file, pick <code>starter.user.js</code>, Install, then open any Wikipedia article. The badge sits in the bottom right corner.</p>
+<h2 id="working-on-a-script-in-your-own-editor">Working on a script in your own editor</h2>
+<p>Settings &gt; Userscripts &gt; More on a script row &gt; Track local file. Pick the script's file on disk. From then on Noodle reads the file whenever it changes and saves it over the installed copy, the same way the built-in editor's Save does. Reload the page to run the new version. The row says which file it follows, with a Stop tracking link.</p>
+<p>A few details:</p>
+<ul>
+<li>Noodle watches the file's folder, so editors that save by writing a new file and renaming it over the old one work too.</li>
+<li>If the saved file has no valid header, or a <code>@require</code> fails to download, the installed copy stays as it was and the row shows the error, starting with "Local file:". The next good save clears it.</li>
+<li>An edit that asks for new sites, grants, <code>@connect</code> hosts, <code>@require</code> or <code>@resource</code> files waits for review, as a script update does. The row says the tracked file asks for more; Review shows the change, Skip keeps the installed copy.</li>
+<li>The file has to keep the script's <code>@name</code> and <code>@namespace</code>. A file with other ones is not saved over the script, and picking such a file doesn't start tracking.</li>
+<li>If the file or its folder goes away, the row says so with a "Local file:" error.</li>
+<li>Edit is off while a script is tracked, because the next change to the file would replace an edit made in Noodle. Edit the file, or Stop tracking first.</li>
+<li>Only a file you pick in the open dialog can be tracked. Neither pages nor scripts can set or change the path.</li>
+<li>Tracking survives a restart, and an edit made while Noodle was closed is read when it starts.</li>
+<li>Update checks skip a tracked script, so a newer version on Greasy Fork won't overwrite your work.</li>
+</ul>
+<h2 id="header">Header</h2>
+<p>Noodle reads:</p>
+<ul>
+<li><code>@name</code> and <code>@description</code> (with <code>@name:xx</code> and <code>@description:xx</code> translations), <code>@namespace</code>, <code>@version</code>, <code>@author</code>, <code>@icon</code> (<code>@iconURL</code>, <code>@icon64</code>), <code>@homepage</code> (<code>@homepageURL</code>, <code>@website</code>, <code>@source</code>), <code>@supportURL</code>, <code>@license</code>.</li>
+<li><code>@match</code> (Chrome match patterns), <code>@include</code> and <code>@exclude</code> (globs with <code>*</code> and <code>.tld</code>, or a <code>/regex/</code>), <code>@exclude-match</code>.</li>
+<li><code>@run-at</code>: <code>document-start</code>, <code>document-body</code>, <code>document-end</code> (the default), <code>document-idle</code>, or <code>context-menu</code> (the script runs when you pick it under Userscripts in the page's context menu).</li>
+<li><code>@grant</code>, <code>@inject-into</code> (<code>page</code>, <code>content</code>, <code>auto</code>), <code>@unwrap</code>, <code>@sandbox</code> (<code>DOM</code> means <code>content</code>), <code>@noframes</code>.</li>
+<li><code>@require</code> and <code>@resource name url</code>: fetched once when you install or update the script and stored with it, never while pages load. A <code>#sha256=</code>, <code>#md5=</code> (or SRI style <code>#sha256-...</code>) hash after the address has to match, or the install stops. Each file may be 5 MB, and all of a script's files 10 MB.</li>
+<li><code>@connect</code>: hosts <code>GM_xmlhttpRequest</code> and <code>GM_download</code> may reach (<code>self</code>, <code>localhost</code>, <code>*</code>, an IP, a domain and its subdomains).</li>
+<li><code>@updateURL</code> and <code>@downloadURL</code>: where update checks look.</li>
+<li><code>@antifeature</code>: shown as a warning before installing.</li>
+<li>Noodle's own <code>@noodle-tool-url</code> (see <a href="#tools-for-agents">Tools for agents</a>).</li>
+</ul>
+<p>A script without any <code>@grant</code> line gets the GM functions its code mentions, as in Tampermonkey. One that mentions none runs like <code>@grant none</code>.</p>
+<p>Scripts run in the top-level page only, not in frames. The source may be 2 MB.</p>
+<h2 id="where-a-script-runs">Where a script runs</h2>
+<p>As in Violentmonkey, a script runs in the page's own world by default, so <code>unsafeWindow</code> is the page's <code>window</code> and the script sees the page's variables. With <code>@inject-into content</code> it runs in an isolated world of its own: it shares the page's DOM but not its JavaScript. On pages that enforce Trusted Types (YouTube is one), scripts without an <code>@inject-into</code> line run in the isolated world, so setting <code>innerHTML</code> keeps working.</p>
+<p>The page can tamper with code in its own world, since its scripts ran first. So a script granted anything beyond <code>GM_info</code>, <code>GM_addStyle</code>, <code>GM_addElement</code>, <code>GM_log</code>, menu commands, resources, <code>unsafeWindow</code> and the <code>window.*</code> grants runs in its isolated world unless it says <code>@inject-into page</code>. That covers requests, cookies, downloads, stored values, the clipboard, tabs, notifications and agent tools. In the isolated world <code>unsafeWindow</code> is the isolated <code>window</code>. The install card warns when such a script asks for the page.</p>
+<p><code>@unwrap</code> runs the source as it is, in the page, with no GM functions.</p>
+<p><code>@run-at document-start</code> runs before any of the page's own scripts, and Noodle waits for the <code>&lt;html&gt;</code> element first, so <code>document.documentElement</code> is there.</p>
+<h2 id="gm-api">GM API</h2>
+<p><code>GM_info</code>, <code>GM_addStyle</code>, <code>GM_addElement</code> and <code>GM_log</code> are always there (<code>@grant none</code> gets <code>GM_info</code> only). The rest need a <code>@grant</code> line. Either spelling unlocks both, so <code>@grant GM.getValue</code> also gives <code>GM_getValue</code>.</p>
+<ul>
+<li>Values: <code>GM_getValue</code>, <code>GM_setValue</code>, <code>GM_deleteValue</code>, <code>GM_listValues</code>, <code>GM_getValues</code>, <code>GM_setValues</code>, <code>GM_deleteValues</code>, <code>GM_addValueChangeListener</code> (changes from other tabs arrive with <code>remote</code> set to true), <code>GM_removeValueChangeListener</code>. Storage is per script, kept in the encrypted profile: 1 MB per value, 5 MB per script.</li>
+<li><code>GM_xmlhttpRequest</code>: method, headers, data (text, FormData, Blob, ArrayBuffer, URLSearchParams), <code>responseType</code> (<code>text</code>, <code>json</code>, <code>blob</code>, <code>arraybuffer</code>, <code>document</code>), timeout, anonymous, cookie, user and password, overrideMimeType, redirect, and the <code>onloadstart</code>, <code>onprogress</code>, <code>onreadystatechange</code>, <code>onload</code>, <code>onerror</code>, <code>ontimeout</code>, <code>onabort</code> and <code>onloadend</code> events. It returns a handle with <code>abort()</code>. Requests run from Noodle itself on the browsing session, so they carry your cookies unless <code>anonymous: true</code>. Responses are capped at 16 MB and redirects at 10 hops.</li>
+<li><code>GM_download</code>: saves to the Downloads folder and shows in the downloads list. It takes http addresses (checked against <code>@connect</code> like requests), <code>blob:</code> and <code>data:</code> URLs. Files that run when opened (<code>.exe</code>, <code>.bat</code>, <code>.js</code>, <code>.lnk</code> and the like) are refused, and on Windows saved files are marked as coming from the internet.</li>
+<li><code>GM_getResourceText</code>, <code>GM_getResourceURL</code> (a <code>blob:</code> URL, or a <code>data:</code> URL when the second argument is false).</li>
+<li><code>GM_setClipboard</code>, <code>GM_notification</code> (text, title, image, silent, timeout, <code>onclick</code>, <code>ondone</code>), <code>GM_openInTab</code> (<code>active</code>, <code>insert</code>; the handle has <code>close()</code>, <code>closed</code> and <code>onclose</code>).</li>
+<li><code>GM_registerMenuCommand</code>, <code>GM_unregisterMenuCommand</code>.</li>
+<li><code>GM_getTab</code>, <code>GM_saveTab</code>, <code>GM_getTabs</code>: an object per tab that lasts as long as the tab.</li>
+<li><code>GM_cookie</code> (<code>list</code>, <code>set</code>, <code>delete</code>), for the sites the script runs on.</li>
+<li><code>unsafeWindow</code>, <code>window.onurlchange</code> (an <code>urlchange</code> event when a single-page site changes the address), <code>window.close</code>, <code>window.focus</code>.</li>
+<li>The promise versions under <code>GM.</code>, including <code>GM.xmlHttpRequest</code>, <code>GM.download</code>, <code>GM.getResourceUrl</code>, <code>GM.notification</code>, <code>GM.getTab</code> and <code>GM.getTabs</code>.</li>
+</ul>
+<p><code>GM_info</code> has <code>scriptHandler</code> set to <code>Noodle</code>, the version, <code>injectInto</code>, <code>platform</code>, <code>uuid</code>, <code>scriptMetaStr</code> and every header field under <code>script</code>. A script that needs to know where it runs can check it:</p>
+<pre class="js"><code>if (GM_info.scriptHandler === &#39;Noodle&#39;) {
+  console.log(&#39;Running in Noodle&#39;, GM_info.version)
+}</code></pre>
+<h3 id="support-compared-with-the-other-managers">Support compared with the other managers</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Function or header</th>
+<th>Noodle</th>
+<th>Tampermonkey</th>
+<th>Violentmonkey</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GM_addStyle</code>, <code>GM_addElement</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Values, bulk values, change listeners</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>GM_xmlhttpRequest</code> with <code>@connect</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>GM_download</code></td>
+<td>yes, without <code>saveAs</code></td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>GM_getResourceText</code>, <code>GM_getResourceURL</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>GM_notification</code>, <code>GM_setClipboard</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>GM_openInTab</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Menu commands</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>GM_getTab</code>, <code>GM_saveTab</code>, <code>GM_getTabs</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>GM_cookie</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>window.onurlchange</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>GM_webRequest</code></td>
+<td>no</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>@inject-into</code>, <code>@unwrap</code></td>
+<td>yes</td>
+<td>no</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>@run-at context-menu</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Scripts in frames</td>
+<td>no, top-level pages only</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>noodle.registerTool</code> (agent tools)</td>
+<td>yes</td>
+<td>no</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Track local file</td>
+<td>yes</td>
+<td>no</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="asking-before-contacting-other-hosts">Asking before contacting other hosts</h2>
+<p><code>GM_xmlhttpRequest</code> and <code>GM_download</code> may reach the page's own host when the header lists <code>@connect self</code>, and the hosts the <code>@connect</code> lines name. For any other host Noodle shows a dialog: Allow once, Always allow, or Deny. Deny holds for the rest of the session, so a script can't keep asking. Always allow is saved with the script.</p>
+<p>Redirects are checked hop by hop before each one is sent. A hop to a host that <code>@connect</code> or an earlier answer allows is followed; a hop to a host that would need the dialog is refused, since the dialog can't open in the middle of a redirect.</p>
+<h2 id="debugging">Debugging</h2>
+<p>Errors a script throws show on its row in Settings with the time, and in its run log (More &gt; the list under the facts). The log keeps the pages the script ran on and its errors since Noodle started, 50 entries per script.</p>
+<p><code>GM_log(...)</code> writes to the page's console with the script's name in front:</p>
+<pre class="js"><code>GM_log(&#39;found&#39;, document.querySelectorAll(&#39;a&#39;).length, &#39;links&#39;)
+// [Starter: reading time] found 212 links</code></pre>
+<p>Open the page's developer tools with F12. Each script is labelled <code>userscript:&lt;name&gt;.user.js</code> in the Sources panel, so you can set breakpoints in it. A script in its isolated world runs in a separate JavaScript context: pick it in the console's context menu (the dropdown above the console that says "top") to evaluate code next to the script.</p>
+<p>The userscripts button in the top bar shows how many scripts ran on the page. Its menu lists them with their commands, turns a script off on that site or everywhere, and opens Settings. A script turned off on a site lists the site on its row, with a button to run it there again.</p>
+<h2 id="updates">Updates</h2>
+<p>Check now in Settings looks for new versions, and with "Check for new versions once a day" on, Noodle does it daily. A new version that asks for nothing more (no new sites, no dropped excludes, no new grants, <code>@connect</code> hosts or files, and the same update addresses) and comes over https installs on its own. Any other waits on the script's row until you review it. A version you skip isn't offered again by the daily check.</p>
+<h2 id="tools-for-agents">Tools for agents</h2>
+<p>A script with <code>@grant noodle.tools</code> gets a <code>noodle</code> object with one function, <code>registerTool</code>:</p>
+<pre class="js"><code>noodle.registerTool({
+  name: &#39;word_count&#39;,
+  description: &#39;Counts the words on the page&#39;,
+  inputSchema: { type: &#39;object&#39;, properties: {} },
+  handler: async () =&gt; ({ words: document.body.innerText.split(/\s+/).length })
+})</code></pre>
+<p><code>inputSchema</code> is a JSON Schema object for the tool's arguments; the handler gets them as its first argument. Return any value that survives <code>JSON.stringify</code>. A script may register 20 tools.</p>
+<p>When agent access is on, MCP clients see the tool as <code>scriptname.toolname</code>: the script name lowercased, with other characters turned into <code>_</code>, so the example in a script named "Page stats" is <code>page_stats.word_count</code>. A call runs the handler in an open tab the script matches. If there is none, Noodle opens <code>@noodle-tool-url</code> in the Agent space and waits up to 15 seconds for the tool to register. The handler has 60 seconds to answer, and its return value goes back to the agent as JSON.</p>
+<p>Every call asks you first, like other sensitive agent actions, and "Allow on this site" covers the rest of the session for that tool. Noodle learns a script's tools when the script runs, so visit a page it matches once after installing or editing it. <code>youtube-transcript.user.js</code> in the examples is a full tool script. See <a href="/docs/agents/">agents.md</a> for the rest of the agent side.</p>
+<h2 id="limits">Limits</h2>
+<ul>
+<li>Scripts run in top-level documents only; <code>@noframes</code> is implied.</li>
+<li><code>GM_info.injectInto</code> still says <code>page</code> after the Trusted Types fallback moved a script to its isolated world.</li>
+<li><code>GM_addElement('script')</code> follows the page's Content Security Policy.</li>
+<li><code>GM_download</code> ignores <code>saveAs</code> and <code>conflictAction</code>.</li>
+<li>Value change listeners don't fire for values you change from outside the script (an import does notify them).</li>
+<li>The run log is in memory only.</li>
+<li>There is no <code>GM_webRequest</code>, cloud sync or per-script <code>@match</code> override.</li>
+</ul>
+
+        <aside class="doc-more" aria-label="More docs">
+          <h2>More guides</h2>
+          <ul><li><a href="/docs/skins/">Skins guide</a></li><li><a href="/docs/agents/">Agents guide</a></li><li><a href="/docs/">All docs</a></li></ul>
+          <p class="muted">This page is built from <a href="https://github.com/udaysinh-git/noodle/blob/main/docs/userscripts.md">docs/userscripts.md</a> in the Noodle repository.</p>
+        </aside>
+      </article>
+
+  </div>
+</main>
+<div class="wrap">
+  <footer class="foot">
+      <section class="foot-launch" aria-labelledby="launch-title">
+        <div>
+          <p class="label" id="launch-title">Launching 5 November</p>
+          <div class="countdown small" data-countdown>
+          <p class="cd-date">Launching <time datetime="2026-11-05T18:00:00+05:30">Thursday 5 November 2026, 6:00 PM India time</time>.<span class="cd-local needs-js"></span></p>
+          <ol class="cd-units needs-js" aria-hidden="true"><li><span class="cd-num" data-unit="d">00</span><span class="cd-label">days</span></li><li><span class="cd-num" data-unit="h">00</span><span class="cd-label">hours</span></li><li><span class="cd-num" data-unit="m">00</span><span class="cd-label">minutes</span></li><li><span class="cd-num" data-unit="s">00</span><span class="cd-label">seconds</span></li></ol>
+          <p class="visually-hidden needs-js" role="timer" data-cd-text></p>
+          <p class="cd-done" hidden>Noodle is out now. <a href="/download.html">Get it here</a>.</p>
+        </div>
+        </div>
+        <div class="foot-launch-actions">
+          <a class="btn btn-ghost needs-js" data-ics hidden>Add to calendar</a>
+        </div>
+      </section>
+      <div class="foot-grid">
+        <div>
+          <p class="foot-maker">A product by <a href="https://kurolabs.in" rel="noopener">Kuro Labs</a></p>
+          <p>Noodle is licensed under the <a href="https://github.com/udaysinh-git/noodle/blob/main/LICENSE">GNU AGPL 3.0</a>.</p>
+          <p>This site sets no cookies, runs no analytics and loads nothing from other servers.</p>
+        </div>
+        <ul class="foot-links">
+          <li><a href="/features/">Features</a></li>
+          <li><a href="/compare/">Noodle compared</a></li>
+          <li><a href="/faq/">FAQ</a></li>
+          <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/docs/">Docs</a></li>
+          <li><a href="https://github.com/udaysinh-git/noodle">Source on GitHub</a></li>
+          <li><a href="https://github.com/udaysinh-git/noodle/issues">Report a bug</a></li>
+        </ul>
+      </div>
+      <p style="margin-top:22px">Screenshots show Big Buck Bunny (Blender Foundation, CC BY 3.0) and pages from Wikipedia, MDN Web Docs, Project Gutenberg and Wikimedia Commons. Type is set in Bricolage Grotesque, Atkinson Hyperlegible and VT323, all under the <a href="/assets/fonts/OFL-atkinson-hyperlegible.txt">SIL Open Font License</a>.</p>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,1090 @@
+<!doctype html>
+<html lang="en" data-launch="2026-11-05T18:00:00+05:30" data-base="/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Make a skin for the Noodle browser</title>
+<meta name="description" content="How to make a Noodle skin: the .skin format, every token and layout key, page effects, dev mode and the skin checker.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#111014" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f3ed" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://noodle.udaysinh.me/docs/skins/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Noodle">
+<meta property="og:locale" content="en">
+<meta property="og:title" content="Make a skin for the Noodle browser">
+<meta property="og:description" content="How to make a Noodle skin: the .skin format, every token and layout key, page effects, dev mode and the skin checker.">
+<meta property="og:url" content="https://noodle.udaysinh.me/docs/skins/">
+<meta property="og:image" content="https://noodle.udaysinh.me/assets/og/docs-skins.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Make a skin for the Noodle browser, with a screenshot of the Noodle browser">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Make a skin for the Noodle browser">
+<meta name="twitter:description" content="How to make a Noodle skin: the .skin format, every token and layout key, page effects, dev mode and the skin checker.">
+<meta name="twitter:image" content="https://noodle.udaysinh.me/assets/og/docs-skins.jpg">
+<meta name="twitter:image:alt" content="Make a skin for the Noodle browser, with a screenshot of the Noodle browser">
+<link rel="preload" href="/assets/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('noodle-site-theme');if(t==='light'||t==='dark')d.dataset.theme=t;var s=localStorage.getItem('noodle-site-skin');if(s==='98'||s==='phosphor'||s==='paper')d.dataset.skin=s}catch(e){}
+var O=['index','features','skins','compare','docs','faq','privacy','download'],R=matchMedia('(prefers-reduced-motion: reduce)');
+function P(u){try{return new URL(u).pathname.split('/').filter(Boolean)[0]||'index'}catch(e){return 'index'}}
+function H(){document.querySelectorAll('.page-shot').forEach(function(el){var r=el.getBoundingClientRect();if(!r.width)return;el.style.viewTransitionName=r.bottom>0&&r.top<innerHeight?'':'none'})}
+addEventListener('pageswap',function(e){if(e.viewTransition)H()});
+addEventListener('pagereveal',function(e){var v=e.viewTransition;if(!v)return;if(R.matches){v.skipTransition();return}H();var a=window.navigation&&navigation.activation;if(a&&a.from&&a.entry){var f=O.indexOf(P(a.from.url)),t=O.indexOf(P(a.entry.url));var b=a.navigationType==='traverse'?t<f:f>t&&t!==-1;v.types&&v.types.add(b?'back':'forward')}})})();</script>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/assets/*"}},{"not":{"href_matches":"*.ics"}}]},"eagerness":"moderate"}]}</script>
+<script src="/assets/site.js" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://noodle.udaysinh.me/#website","name":"Noodle","url":"https://noodle.udaysinh.me/","publisher":{"@id":"https://noodle.udaysinh.me/#kurolabs"},"inLanguage":"en"},{"@type":"Organization","@id":"https://noodle.udaysinh.me/#kurolabs","name":"Kuro Labs","url":"https://kurolabs.in","sameAs":["https://github.com/udaysinh-git"]},{"@type":"TechArticle","headline":"Make a skin for the Noodle browser","description":"How to make a Noodle skin: the .skin format, every token and layout key, page effects, dev mode and the skin checker.","url":"https://noodle.udaysinh.me/docs/skins/","author":{"@id":"https://noodle.udaysinh.me/#kurolabs"},"publisher":{"@id":"https://noodle.udaysinh.me/#kurolabs"},"about":{"@id":"https://noodle.udaysinh.me/#app"},"dateModified":"2026-10-29","inLanguage":"en"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://noodle.udaysinh.me/"},{"@type":"ListItem","position":2,"name":"Docs","item":"https://noodle.udaysinh.me/docs/"},{"@type":"ListItem","position":3,"name":"Skins guide","item":"https://noodle.udaysinh.me/docs/skins/"}]}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="/"><img src="/assets/logo.svg" width="30" height="30" alt="">Noodle</a>
+    <nav class="nav" aria-label="Site"><ul><li><a href="/features/">Features</a></li><li><a href="/skins/">Skins</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li><li><a href="/faq/">FAQ</a></li><li><a href="/download/">Download</a></li></ul></nav>
+    <button class="theme-toggle needs-js" type="button" data-action="theme" aria-label="Switch theme"><span class="icon-dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><span class="icon-light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></span></button>
+  </div>
+</header>
+<main id="main">
+  <div class="wrap">
+      <article class="doc">
+        <p class="label"><a href="/docs/">Docs</a> / Skins guide</p>
+        <h1 id="noodle-skins">Noodle skins</h1>
+<p>A skin changes how Noodle looks: colours, type, corners, spacing, and optionally the layout and page effects it suggests. A skin is a file ending in <code>.skin</code>. Open one from your file manager, drop it on the Noodle window, or use Settings &gt; Appearance &gt; Install skin. Noodle shows it for 15 seconds with Keep and Revert before anything is saved.</p>
+<p>This page covers the whole format. To start right away, copy <a href="https://github.com/udaysinh-git/noodle/blob/main/docs/examples/skins/starter"><code>examples/skins/starter</code></a> and go to <a href="#building-a-skin-from-scratch">Building a skin from scratch</a>.</p>
+<p>The built-in skins in <code>resources/skins/</code> are laid out exactly like a <code>.skin</code>, unzipped, so they double as examples: <code>noodle</code> (light and dark), <code>black</code>, <code>high-contrast</code>, <code>paper</code>, <code>classic-98</code>, <code>phosphor</code>, <code>phosphor-amber</code>, <code>glass-2000</code> and <code>blueprint</code>.</p>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><a href="#the-file">The file</a></li>
+<li><a href="#skinjson">skin.json</a></li>
+<li><a href="#tokens">Tokens</a></li>
+<li><a href="#layout-suggestions">Layout suggestions</a></li>
+<li><a href="#page-effects">Page effects</a></li>
+<li><a href="#skincss">skin.css</a></li>
+<li><a href="#pictures-and-fonts">Pictures and fonts</a></li>
+<li><a href="#limits">Limits</a></li>
+<li><a href="#what-noodle-refuses-and-why">What Noodle refuses, and why</a></li>
+<li><a href="#skin-dev-mode">Skin dev mode</a></li>
+<li><a href="#checking-and-packing-from-the-command-line">Checking and packing from the command line</a></li>
+<li><a href="#building-a-skin-from-scratch">Building a skin from scratch</a></li>
+<li><a href="#how-classic-98-is-made">How Classic 98 is made</a></li>
+<li><a href="#the-skin-editor">The skin editor</a></li>
+</ul>
+<h2 id="the-file">The file</h2>
+<p>A <code>.skin</code> is a zip with:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Required</th>
+<th>What it holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>skin.json</code></td>
+<td>yes</td>
+<td>Name, tokens and suggestions</td>
+</tr>
+<tr>
+<td><code>skin.css</code></td>
+<td>no</td>
+<td>Extra CSS for the Noodle window</td>
+</tr>
+<tr>
+<td><code>assets/</code></td>
+<td>no</td>
+<td>PNG, JPEG, WebP, AVIF and SVG pictures, WOFF2 fonts</td>
+</tr>
+<tr>
+<td><code>LICENSE</code>, <code>*.txt</code>, <code>*.md</code></td>
+<td>no</td>
+<td>Licence and notes; never served</td>
+</tr>
+</tbody>
+</table></div>
+<p>Anything else, a path that leaves the zip's root, or more than 10 MB in total makes Noodle refuse the skin. A zip that wraps everything in one top folder is fine. You don't need to make the zip by hand: <code>npm run skin -- pack &lt;folder&gt;</code> does it, and so does Save as .skin in the skin editor.</p>
+<h2 id="skinjson">skin.json</h2>
+<p>A full example:</p>
+<pre class="json"><code>{
+  &quot;name&quot;: &quot;Night Shift&quot;,
+  &quot;author&quot;: &quot;You&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Warm and dim for late reading.&quot;,
+  &quot;license&quot;: &quot;CC0-1.0&quot;,
+  &quot;noodle&quot;: &quot;0.0.1&quot;,
+  &quot;mode&quot;: &quot;dark&quot;,
+  &quot;tokens&quot;: {
+    &quot;bg&quot;: &quot;#16120e&quot;,
+    &quot;surface&quot;: &quot;#1f1a14&quot;,
+    &quot;text&quot;: &quot;#f1e6d4&quot;,
+    &quot;muted&quot;: &quot;#bba98f&quot;,
+    &quot;accent&quot;: &quot;#f0a35e&quot;,
+    &quot;radius&quot;: &quot;6px&quot;
+  },
+  &quot;fonts&quot;: [{ &quot;family&quot;: &quot;My Font&quot;, &quot;src&quot;: &quot;assets/my-font.woff2&quot;, &quot;weight&quot;: &quot;400&quot; }],
+  &quot;wallpaper&quot;: &quot;assets/wall.webp&quot;,
+  &quot;layout&quot;: { &quot;sidebarSide&quot;: &quot;right&quot;, &quot;density&quot;: &quot;compact&quot; },
+  &quot;pageEffects&quot;: { &quot;crt&quot;: &quot;light&quot;, &quot;scanlines&quot;: 0.4 },
+  &quot;features&quot;: [&quot;sounds&quot;]
+}</code></pre>
+<p>Every field:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>required</td>
+<td>Up to 60 characters. Also gives the installed skin its id</td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td>string</td>
+<td>empty</td>
+<td>Up to 60 characters</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>string</td>
+<td><code>1.0.0</code></td>
+<td>Up to 20 characters, shown in Settings</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>empty</td>
+<td>Up to 300 characters, shown when you hover the skin</td>
+</tr>
+<tr>
+<td><code>license</code></td>
+<td>string</td>
+<td>empty</td>
+<td>An SPDX id like <code>CC0-1.0</code> or <code>MIT</code> is the clearest</td>
+</tr>
+<tr>
+<td><code>noodle</code></td>
+<td>string</td>
+<td>none</td>
+<td>The oldest Noodle version the skin works with. Newer requirements refuse it</td>
+</tr>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>dark</code></td>
+<td><code>dark</code>, <code>light</code> or <code>both</code></td>
+</tr>
+<tr>
+<td><code>tokens</code></td>
+<td>object</td>
+<td><code>{}</code></td>
+<td>Token values, see <a href="#tokens">Tokens</a>. With <code>both</code>, two sets</td>
+</tr>
+<tr>
+<td><code>fonts</code></td>
+<td>list of objects</td>
+<td><code>[]</code></td>
+<td>Up to 8 WOFF2 fonts from <code>assets/</code></td>
+</tr>
+<tr>
+<td><code>wallpaper</code></td>
+<td>string</td>
+<td>none</td>
+<td>A picture in <code>assets/</code>, shown behind the sidebar and top bar</td>
+</tr>
+<tr>
+<td><code>layout</code></td>
+<td>object</td>
+<td>none</td>
+<td>Layout the skin suggests, see <a href="#layout-suggestions">Layout suggestions</a></td>
+</tr>
+<tr>
+<td><code>pageEffects</code></td>
+<td>object</td>
+<td>none</td>
+<td>Page effects the skin suggests, see <a href="#page-effects">Page effects</a></td>
+</tr>
+<tr>
+<td><code>features</code></td>
+<td>list of strings</td>
+<td><code>[]</code></td>
+<td>Extras Noodle draws itself: <code>sounds</code>, <code>window-buttons</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Some details:</p>
+<ul>
+<li>With <code>"mode": "both"</code>, <code>tokens</code> holds two sets, <code>{ "dark": { ... }, "light": { ... } }</code>, and Noodle picks one from the theme setting (system, dark or light). A <code>dark</code> or <code>light</code> skin ignores the theme setting.</li>
+<li>Token names are written without the leading dashes: <code>"bg"</code>, not <code>"--bg"</code>. Unknown names are ignored.</li>
+<li>A font entry looks like <code>{ "family": "My Font", "src": "/assets/my-font.woff2", "weight": "400", "style": "normal" }</code>. <code>family</code> may hold letters, digits, spaces, <code>_</code> and <code>-</code>. <code>weight</code> is one weight (<code>700</code>) or a range (<code>100 900</code>). <code>style</code> is <code>normal</code> or <code>italic</code>. Use the family in the <code>font-ui</code> or <code>font-mono</code> token.</li>
+<li><code>layout</code> and <code>pageEffects</code> are suggestions. Settings &gt; Appearance offers "Use its layout" and "Use its page effects"; nothing changes until the user accepts.</li>
+<li><code>sounds</code> gives the skin short synthesized interface clicks, only when the user has turned sounds on in Settings.</li>
+<li><code>window-buttons</code> (Windows and Linux) makes Noodle draw the minimize, maximize and close buttons itself instead of the system's, so <code>skin.css</code> can restyle them (see <a href="#window-buttons">Window buttons</a>). A window can't swap its buttons while it is open, so this takes effect the next time Noodle starts; Settings &gt; Appearance offers a Restart button. Without it, the system's buttons stay and only take the <code>titlebar</code> and <code>titlebar-symbol</code> colours, which keeps the Windows 11 snap layouts on the maximize button. Ask for it only when colours aren't enough. The choice follows the skin picked in Settings, not a space's own skin. On macOS the system's buttons always stay. The window is created before the profile is unlocked, so the choice (and, for these skins only, the <code>bg</code> colour shown before the first paint) is kept in <code>window-frame.json</code> in the Noodle data folder, outside the locked profile.</li>
+<li>Keys Noodle doesn't know are ignored. <code>npm run skin -- validate</code> and skin dev mode warn about them, which catches typos.</li>
+</ul>
+<h2 id="tokens">Tokens</h2>
+<p>Tokens are CSS custom properties on the Noodle window. Noodle's own styles read them everywhere, so setting a handful changes the whole window. A skin's values come after Noodle's defaults and win. The user's own choices in Settings (gap, corner radius, font, text size, a space's accent colour and wallpaper) win over the skin.</p>
+<p>A token value may be a colour, a length, a shadow, a gradient or a font list. <code>url()</code>, <code>image-set()</code> and similar functions, <code>;</code>, braces, comments, backslashes and unbalanced quotes are refused, so a value can't end its declaration or load anything. Pictures belong in <a href="#skincss"><code>skin.css</code></a> or <code>wallpaper</code>.</p>
+<p>The tables list every token with Noodle's own values. "same as dark" means the light palette keeps the dark value, and <code>var(--bg)</code> and similar mean the token follows another one unless you set it.</p>
+<!-- tokens:start (generated by scripts/skin-tokens.mjs; edit only the Use column) -->
+
+<h3 id="colours">Colours</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Dark</th>
+<th>Light</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bg</code></td>
+<td><code>#111113</code></td>
+<td><code>#ececef</code></td>
+<td>Window background, behind the sidebar and top bar</td>
+</tr>
+<tr>
+<td><code>surface</code></td>
+<td><code>#1a1a1d</code></td>
+<td><code>#ffffff</code></td>
+<td>The page area, fields and panels</td>
+</tr>
+<tr>
+<td><code>elevated</code></td>
+<td><code>#1c1c1f</code></td>
+<td><code>#ffffff</code></td>
+<td>Command palette, menus and dialogs</td>
+</tr>
+<tr>
+<td><code>card</code></td>
+<td><code>#202024</code></td>
+<td><code>#ffffff</code></td>
+<td>Cards on the canvas</td>
+</tr>
+<tr>
+<td><code>sidebar-bg</code></td>
+<td><code>transparent</code></td>
+<td>same as dark</td>
+<td>Behind the sidebar, over <code>bg</code></td>
+</tr>
+<tr>
+<td><code>topbar-bg</code></td>
+<td><code>transparent</code></td>
+<td>same as dark</td>
+<td>Behind the top bar, over <code>bg</code></td>
+</tr>
+<tr>
+<td><code>titlebar</code></td>
+<td><code>var(--bg)</code></td>
+<td><code>#ececef</code></td>
+<td>Strip behind the window buttons on Windows and Linux (solid colour)</td>
+</tr>
+<tr>
+<td><code>titlebar-symbol</code></td>
+<td><code>#d4d4d8</code></td>
+<td><code>#3f3f46</code></td>
+<td>The window button symbols on Windows and Linux (solid colour)</td>
+</tr>
+<tr>
+<td><code>hover</code></td>
+<td><code>rgba(255, 255, 255, 0.06)</code></td>
+<td><code>rgba(0, 0, 0, 0.05)</code></td>
+<td>Rows and buttons under the pointer</td>
+</tr>
+<tr>
+<td><code>active</code></td>
+<td><code>rgba(255, 255, 255, 0.1)</code></td>
+<td><code>rgba(0, 0, 0, 0.085)</code></td>
+<td>Pressed buttons and selected rows</td>
+</tr>
+<tr>
+<td><code>border</code></td>
+<td><code>rgba(255, 255, 255, 0.08)</code></td>
+<td><code>rgba(0, 0, 0, 0.1)</code></td>
+<td>Lines between parts</td>
+</tr>
+<tr>
+<td><code>border-strong</code></td>
+<td><code>rgba(255, 255, 255, 0.16)</code></td>
+<td><code>rgba(0, 0, 0, 0.2)</code></td>
+<td>Lines that need to show, like a focused field</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td><code>#e4e4e7</code></td>
+<td><code>#18181b</code></td>
+<td>Main text</td>
+</tr>
+<tr>
+<td><code>muted</code></td>
+<td><code>#a1a1aa</code></td>
+<td><code>#52525b</code></td>
+<td>Secondary text</td>
+</tr>
+<tr>
+<td><code>faint</code></td>
+<td><code>#71717a</code></td>
+<td><code>#71717a</code></td>
+<td>Hints, counts and the weakest text</td>
+</tr>
+<tr>
+<td><code>accent</code></td>
+<td><code>#a78bfa</code></td>
+<td><code>#7c3aed</code></td>
+<td>Highlights, focus rings and the selected thing</td>
+</tr>
+<tr>
+<td><code>accent-hover</code></td>
+<td><code>#b9a3fc</code></td>
+<td><code>#6d28d9</code></td>
+<td>The accent under the pointer</td>
+</tr>
+<tr>
+<td><code>accent-text</code></td>
+<td><code>#18181b</code></td>
+<td><code>#ffffff</code></td>
+<td>Text on an accent background</td>
+</tr>
+<tr>
+<td><code>agent</code></td>
+<td><code>#c084fc</code></td>
+<td><code>#9333ea</code></td>
+<td>Anything an agent is doing</td>
+</tr>
+<tr>
+<td><code>warn</code></td>
+<td><code>#fbbf24</code></td>
+<td><code>#b45309</code></td>
+<td>Warnings</td>
+</tr>
+<tr>
+<td><code>danger</code></td>
+<td><code>#f87171</code></td>
+<td><code>#dc2626</code></td>
+<td>Errors and buttons that delete</td>
+</tr>
+<tr>
+<td><code>danger-text</code></td>
+<td><code>#fca5a5</code></td>
+<td><code>#b91c1c</code></td>
+<td>Error text</td>
+</tr>
+<tr>
+<td><code>good</code></td>
+<td><code>#4ade80</code></td>
+<td><code>#16a34a</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>good-text</code></td>
+<td><code>#86efac</code></td>
+<td><code>#15803d</code></td>
+<td>Success text</td>
+</tr>
+<tr>
+<td><code>link</code></td>
+<td><code>#c4b5fd</code></td>
+<td><code>#6d28d9</code></td>
+<td>Links, including links in the reader</td>
+</tr>
+<tr>
+<td><code>scrim</code></td>
+<td><code>rgba(9, 9, 11, 0.55)</code></td>
+<td><code>rgba(24, 24, 27, 0.25)</code></td>
+<td>Behind the palette and dialogs</td>
+</tr>
+<tr>
+<td><code>selection</code></td>
+<td><code>rgba(167, 139, 250, 0.35)</code></td>
+<td><code>rgba(124, 58, 237, 0.22)</code></td>
+<td>Selected text</td>
+</tr>
+<tr>
+<td><code>input-bg</code></td>
+<td><code>var(--surface)</code></td>
+<td>same as dark</td>
+<td>The address field and other inputs</td>
+</tr>
+<tr>
+<td><code>tab-active-bg</code></td>
+<td><code>var(--active)</code></td>
+<td>same as dark</td>
+<td>The selected tab</td>
+</tr>
+<tr>
+<td><code>tab-active-text</code></td>
+<td><code>var(--text)</code></td>
+<td>same as dark</td>
+<td>Text of the selected tab</td>
+</tr>
+<tr>
+<td><code>scrollbar</code></td>
+<td><code>rgba(255, 255, 255, 0.14)</code></td>
+<td><code>rgba(0, 0, 0, 0.2)</code></td>
+<td>Scrollbar thumbs</td>
+</tr>
+<tr>
+<td><code>code-bg</code></td>
+<td><code>rgba(255, 255, 255, 0.08)</code></td>
+<td><code>rgba(0, 0, 0, 0.05)</code></td>
+<td>Code in the reader and in notes</td>
+</tr>
+<tr>
+<td><code>mark</code></td>
+<td><code>rgba(250, 204, 21, 0.28)</code></td>
+<td><code>rgba(250, 204, 21, 0.4)</code></td>
+<td>Highlighted text in the reader and in notes</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="shape-and-spacing">Shape and spacing</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Dark</th>
+<th>Light</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>radius</code></td>
+<td><code>8px</code></td>
+<td>same as dark</td>
+<td>Corner radius of panels; the page views follow it</td>
+</tr>
+<tr>
+<td><code>radius-sm</code></td>
+<td><code>6px</code></td>
+<td>same as dark</td>
+<td>Smaller corners: buttons, rows, fields</td>
+</tr>
+<tr>
+<td><code>gap</code></td>
+<td><code>8px</code></td>
+<td>same as dark</td>
+<td>Space around the page and between large parts</td>
+</tr>
+<tr>
+<td><code>row-height</code></td>
+<td><code>34px</code></td>
+<td>same as dark</td>
+<td>Height of tabs, bookmarks and similar rows</td>
+</tr>
+<tr>
+<td><code>shadow</code></td>
+<td><code>0 6px 20px rgba(0, 0, 0, 0.28)</code></td>
+<td><code>0 6px 20px rgba(0, 0, 0, 0.08)</code></td>
+<td>Small shadow: menus, the address suggestions</td>
+</tr>
+<tr>
+<td><code>shadow-lg</code></td>
+<td><code>0 24px 64px rgba(0, 0, 0, 0.5)</code></td>
+<td><code>0 24px 64px rgba(0, 0, 0, 0.18)</code></td>
+<td>Large shadow: the palette and dialogs</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="type">Type</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Dark</th>
+<th>Light</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>font-ui</code></td>
+<td><code>system-ui, -apple-system, 'Segoe UI', sans-serif</code></td>
+<td>same as dark</td>
+<td>Font of the whole window</td>
+</tr>
+<tr>
+<td><code>font-mono</code></td>
+<td><code>ui-monospace, 'Cascadia Code', Consolas, monospace</code></td>
+<td>same as dark</td>
+<td>Font of code, the userscript editor and addresses</td>
+</tr>
+<tr>
+<td><code>font-size</code></td>
+<td><code>13px</code></td>
+<td>same as dark</td>
+<td>Base text size; the rest scales from it</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="motion">Motion</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Dark</th>
+<th>Light</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>duration</code></td>
+<td><code>120ms</code></td>
+<td>same as dark</td>
+<td>Length of small transitions; <code>0ms</code> turns them off</td>
+</tr>
+<tr>
+<td><code>ease</code></td>
+<td><code>ease-out</code></td>
+<td>same as dark</td>
+<td>Easing of those transitions</td>
+</tr>
+</tbody>
+</table></div>
+<!-- tokens:end -->
+
+<p>The reader view's "Noodle" theme takes <code>bg</code>, <code>surface</code>, <code>text</code>, <code>muted</code>, <code>border</code>, <code>hover</code>, <code>active</code>, <code>accent</code>, <code>link</code>, <code>code-bg</code>, <code>mark</code> and <code>danger</code> from the active skin.</p>
+<p>If you work on Noodle itself: <code>npm run docs:tokens</code> writes the tables above from <code>SKIN_TOKENS</code> in <code>src/shared/skins.ts</code> and the <code>:root</code> blocks in <code>styles.css</code> and <code>theme.css</code>. <code>npm run build</code> runs the same script with <code>--check</code> and stops when the tables are out of date or a token has no description, so a new token needs a line here first.</p>
+<h2 id="layout-suggestions">Layout suggestions</h2>
+<p>All keys are optional. A key with a value Noodle doesn't accept is dropped, and the validator says so.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Values</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sidebarSide</code></td>
+<td><code>left</code>, <code>right</code></td>
+<td>Which side the sidebar sits on</td>
+</tr>
+<tr>
+<td><code>sidebarMode</code></td>
+<td><code>shown</code>, <code>autohide</code>, <code>compact</code>, <code>hidden</code></td>
+<td>Always there, slides in at the edge, icons only, or gone</td>
+</tr>
+<tr>
+<td><code>tabsOnTop</code></td>
+<td><code>true</code>, <code>false</code></td>
+<td>Tabs in a strip along the top instead of the sidebar</td>
+</tr>
+<tr>
+<td><code>topBar</code></td>
+<td><code>shown</code>, <code>merged</code>, <code>hidden</code></td>
+<td>The address bar row, folded into the sidebar, or gone</td>
+</tr>
+<tr>
+<td><code>density</code></td>
+<td><code>comfortable</code>, <code>compact</code></td>
+<td>Row heights and padding</td>
+</tr>
+<tr>
+<td><code>gap</code></td>
+<td>whole number from 0 to 24</td>
+<td>Pixels around the page</td>
+</tr>
+<tr>
+<td><code>radius</code></td>
+<td>whole number from 0 to 24</td>
+<td>Corner radius in pixels, page views included</td>
+</tr>
+<tr>
+<td><code>motion</code></td>
+<td><code>full</code>, <code>reduced</code>, <code>none</code></td>
+<td>How much the window animates</td>
+</tr>
+<tr>
+<td><code>toolbar</code></td>
+<td>list of top bar button names, see below</td>
+<td>Which top bar buttons show, in order; each name at most once</td>
+</tr>
+</tbody>
+</table></div>
+<p>Toolbar button names: <code>split</code>, <code>reader</code>, <code>video</code>, <code>scripts</code>, <code>shield</code>, <code>fast</code>, <code>star</code>, <code>devtools</code> and <code>effects</code>.</p>
+<p><code>gap</code> and <code>radius</code> here become the user's settings. Use the <code>gap</code> and <code>radius</code> tokens for the look itself, and the layout keys only when the skin needs those numbers to stick. Prompts, agent waits and find bring a hidden top bar back while they are up, whatever the skin suggests.</p>
+<h2 id="page-effects">Page effects</h2>
+<p>Page effects change how web pages look, not the Noodle window. They are Noodle's own code: a skin can only suggest which ones to switch on and with which numbers, and the user turns them on (Use its page effects, or Settings &gt; Appearance &gt; Page effects).</p>
+<pre class="json"><code>{
+  &quot;pageEffects&quot;: {
+    &quot;crt&quot;: &quot;light&quot;,
+    &quot;curvature&quot;: 0.35,
+    &quot;scanlines&quot;: 0.35,
+    &quot;glow&quot;: 0.25,
+    &quot;flicker&quot;: 0.1,
+    &quot;mask&quot;: 0.3,
+    &quot;tint&quot;: &quot;#33ff66&quot;,
+    &quot;pixelFont&quot;: true
+  }
+}</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Values</th>
+<th>Default</th>
+<th>Light tier</th>
+<th>Full tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>crt</code></td>
+<td><code>off</code>, <code>light</code>, <code>full</code></td>
+<td><code>off</code></td>
+<td><code>light</code> turns on the overlay below</td>
+<td><code>full</code> draws the page through the CRT shader</td>
+</tr>
+<tr>
+<td><code>curvature</code></td>
+<td>0 to 1</td>
+<td>0.5</td>
+<td>Strength of the dark vignette</td>
+<td>How far the tube bulges, plus vignette and fringe</td>
+</tr>
+<tr>
+<td><code>scanlines</code></td>
+<td>0 to 1</td>
+<td>0.5</td>
+<td>Darkness of the 3 px lines</td>
+<td>Depth of scanlines that follow the curve</td>
+</tr>
+<tr>
+<td><code>glow</code></td>
+<td>0 to 1</td>
+<td>0.4</td>
+<td>A little more brightness and contrast</td>
+<td>Bloom: bright areas bleed into their neighbours</td>
+</tr>
+<tr>
+<td><code>flicker</code></td>
+<td>0 to 1</td>
+<td>0.2</td>
+<td>A slight brightness flicker</td>
+<td>A slight brightness flicker</td>
+</tr>
+<tr>
+<td><code>mask</code></td>
+<td>0 to 1</td>
+<td>0.4</td>
+<td>Faint red, green and blue columns</td>
+<td>Aperture grille: each column favours one colour</td>
+</tr>
+<tr>
+<td><code>grayscale</code></td>
+<td>0 to 1</td>
+<td>0</td>
+<td>Page in gray</td>
+<td>Not used</td>
+</tr>
+<tr>
+<td><code>sepia</code></td>
+<td>0 to 1</td>
+<td>0</td>
+<td>Page in brown tones</td>
+<td>Not used</td>
+</tr>
+<tr>
+<td><code>tint</code></td>
+<td><code>#rrggbb</code> or empty</td>
+<td>empty</td>
+<td>One-colour screen: inverted, then tinted</td>
+<td>One phosphor colour; light pages become lit text</td>
+</tr>
+<tr>
+<td><code>dither</code></td>
+<td><code>true</code>, <code>false</code></td>
+<td><code>false</code></td>
+<td>A 2 px checker pattern over the page</td>
+<td>Not used</td>
+</tr>
+<tr>
+<td><code>pixelFont</code></td>
+<td><code>true</code>, <code>false</code></td>
+<td><code>false</code></td>
+<td>Page text in a pixel font (VT323)</td>
+<td>Not used</td>
+</tr>
+</tbody>
+</table></div>
+<p>Flicker stops when the system asks for reduced motion or the user sets motion to reduced or none.</p>
+<h3 id="the-light-tier">The light tier</h3>
+<p>The light tier is CSS that Noodle puts into each page: a filter on the page for grayscale, sepia, tint and glow, and one click-through overlay for scanlines, the mask, the vignette and dither. It costs close to nothing and works on every machine. With <code>pixelFont</code> on, icon fonts, code and preformatted text keep their own font.</p>
+<h3 id="the-full-crt-tier">The full CRT tier</h3>
+<p>With <code>"crt": "full"</code>, Noodle renders the active tab offscreen and draws each frame through a WebGPU shader on the Noodle window: barrel curvature, an aperture grille, bloom, scanlines that follow the curve, slight colour fringing towards the edges, flicker, a rounded tube edge and the phosphor tint. Clicks, scrolling and typing are mapped back through the same curve, so the page stays usable. It draws at most 60 frames a second. The real tab is hidden and muted while the CRT copy shows, and moves to the address you ended up on when the CRT stops.</p>
+<p>Noodle falls back to the light tier when WebGPU or shared GPU textures are missing, when the GPU device is lost, or when drawing stays under 50 frames a second for 3 seconds. Split view, reader view, the canvas and fullscreen use the light tier, and the CRT never starts on a tab an agent is working in. Since a skin can only suggest <code>full</code>, nothing heavy runs until the user turns it on.</p>
+<h2 id="skincss">skin.css</h2>
+<p><code>skin.css</code> styles the Noodle window, after Noodle's own styles. Use the class names you see in the window's developer tools (<code>.sidebar</code>, <code>.tab.active</code>, <code>.topbar</code>, <code>.address-input</code>, <code>.palette</code>, <code>.button</code> and so on). Reach for tokens first: they are shorter, they keep working when Noodle's markup changes, and they cover parts you might forget. Use <code>skin.css</code> for what tokens can't say, like bevels, patterns or a different shape for one control.</p>
+<pre class="css"><code>/* The selected tab gets a bar in the accent colour on its left edge. */
+.tab.active {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tab {
+    transition: background var(--duration) var(--ease);
+  }
+}</code></pre>
+<h3 id="window-buttons">Window buttons</h3>
+<p>With the <code>window-buttons</code> feature, Noodle draws the window buttons as plain HTML in the top right corner, where the system's would be:</p>
+<pre class="html"><code>&lt;div class=&quot;window-controls maximized inactive&quot;&gt;
+  &lt;button class=&quot;wc-button wc-min&quot;&gt;&lt;span class=&quot;wc-glyph&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;wc-button wc-max&quot;&gt;&lt;span class=&quot;wc-glyph&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;wc-button wc-close&quot;&gt;&lt;span class=&quot;wc-glyph&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+<p><code>maximized</code> is there while the window is maximized (the middle button then restores) and <code>inactive</code> while another window has focus. The glyphs are drawn with borders and the <code>::before</code> and <code>::after</code> pseudo-elements of <code>.wc-glyph</code>, so a skin can redraw them without pictures. The rest of the top strip still moves the window: drag it, double-click it to maximize, or drag it to a screen edge to snap. Windows' snap layouts menu only appears on the system's maximize button; Win+Z still opens it.</p>
+<h3 id="new-tab-page">New tab page</h3>
+<p>Blank tabs show the new tab page (Settings &gt; Appearance &gt; New tab page): a clock, a search field and the user's shortcuts. Noodle draws it in the window, so it uses the skin's tokens (<code>surface</code> behind it, <code>elevated</code> and <code>border</code> for the icon tiles, <code>hover</code>, <code>accent</code> for focus) and the skin's or space's wallpaper. The user can pick their own colour or picture instead. Its classes, for <code>skin.css</code>:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Class</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.ntp</code></td>
+<td>The page; <code>on-dark</code>, <code>on-light</code> or <code>on-picture</code> with the user's own background</td>
+</tr>
+<tr>
+<td><code>.ntp-clock</code>, <code>.ntp-time</code>, <code>.ntp-date</code></td>
+<td>The clock</td>
+</tr>
+<tr>
+<td><code>.ntp-search-input</code></td>
+<td>The search field</td>
+</tr>
+<tr>
+<td><code>.ntp-tile</code>, <code>.ntp-link</code>, <code>.ntp-add</code></td>
+<td>A shortcut, its link, the Add shortcut tile</td>
+</tr>
+<tr>
+<td><code>.ntp-icon</code>, <code>.ntp-name</code></td>
+<td>A shortcut's icon box and name</td>
+</tr>
+<tr>
+<td><code>.ntp-remove</code></td>
+<td>The remove button that shows on hover</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="cleaning">Cleaning</h3>
+<p>Noodle cleans the file before use:</p>
+<ul>
+<li><code>@media</code>, <code>@supports</code>, <code>@keyframes</code>, <code>@font-face</code> and <code>@container</code> stay. <code>@import</code>, <code>@layer</code> and every other at-rule are removed.</li>
+<li><code>url()</code> works for files in the skin's own <code>assets/</code> folder (<code>url('assets/dots.svg')</code> or <code>url(./assets/dots.svg)</code>) and for <code>data:</code> pictures and WOFF2 fonts. Anything else becomes <code>none</code>.</li>
+<li><code>image-set()</code>, <code>src()</code>, <code>image()</code>, <code>cross-fade()</code>, <code>element()</code>, <code>attr()</code>, <code>env()</code> and <code>paint()</code> are removed.</li>
+<li><code>z-index</code> is capped at 9999.</li>
+<li>A backslash escape outside a string makes Noodle refuse the skin, since an escape could spell one of the blocked names.</li>
+</ul>
+<p>The install preview, skin dev mode and the validator all list what was removed.</p>
+<h2 id="pictures-and-fonts">Pictures and fonts</h2>
+<p>Put them in <code>assets/</code> (subfolders are fine, up to five levels). File and folder names may use letters, digits, <code>.</code>, <code>_</code> and <code>-</code> and must start with a letter or digit.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Extension</th>
+<th>Served as</th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.png</code></td>
+<td><code>image/png</code></td>
+<td>Pictures, patterns</td>
+</tr>
+<tr>
+<td><code>.jpg</code>, <code>.jpeg</code></td>
+<td><code>image/jpeg</code></td>
+<td>Photos</td>
+</tr>
+<tr>
+<td><code>.webp</code>, <code>.avif</code></td>
+<td>as named</td>
+<td>Photos and pictures, smaller than PNG or JPEG</td>
+</tr>
+<tr>
+<td><code>.svg</code></td>
+<td><code>image/svg+xml</code></td>
+<td>Patterns and icons; scripts in SVG never run</td>
+</tr>
+<tr>
+<td><code>.woff2</code></td>
+<td><code>font/woff2</code></td>
+<td>Fonts, through <code>fonts</code> in skin.json or @font-face</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>The wallpaper is a picture from <code>assets/</code> named in <code>wallpaper</code>. It sits behind the sidebar and the top bar, under <code>bg</code>. A user can also pick a wallpaper per space, and that one wins.</li>
+<li>Fonts in <code>fonts</code> get <code>font-display: swap</code>, so text shows in the next font in your list until the file has loaded. End <code>font-ui</code> with a system font.</li>
+<li>Check the licence of every font and picture you ship and put it next to the file (<code>assets/OFL.txt</code>, say). Classic 98 and Phosphor do this for their Open Font License fonts.</li>
+<li>Pictures and fonts are served on <code>noodle-skin://&lt;skin&gt;/assets/...</code> to the Noodle window only. Web pages can't load them.</li>
+</ul>
+<h2 id="limits">Limits</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>What</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Whole skin (all files)</td>
+<td>10 MB, and the .skin file itself 10 MB</td>
+</tr>
+<tr>
+<td><code>skin.json</code></td>
+<td>64 KB</td>
+</tr>
+<tr>
+<td><code>skin.css</code></td>
+<td>256 KB</td>
+</tr>
+<tr>
+<td>A token value</td>
+<td>240 characters</td>
+</tr>
+<tr>
+<td>Fonts in <code>fonts</code></td>
+<td>8</td>
+</tr>
+<tr>
+<td>A <code>data:</code> URL in skin.css</td>
+<td>200,000 characters</td>
+</tr>
+<tr>
+<td><code>z-index</code> in skin.css</td>
+<td>-9999 to 9999</td>
+</tr>
+<tr>
+<td>Folders under <code>assets/</code></td>
+<td>5 levels, names up to 81 characters</td>
+</tr>
+<tr>
+<td>A folder in dev mode or <code>pack</code></td>
+<td>500 files; hidden files (starting with <code>.</code>) are skipped</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="what-noodle-refuses-and-why">What Noodle refuses, and why</h2>
+<p>Skins come from strangers, so a skin is data and never code.</p>
+<ul>
+<li>No JavaScript or any other code. A skin has nowhere to put it, SVG pictures are shown as images (where scripts never run), and Noodle serves skin files with a policy that blocks scripts even if one is opened as a document.</li>
+<li>No remote addresses. Fonts and pictures come from the skin itself, so a skin can't tell anyone when or where you use it. The window's content security policy only allows pictures and fonts from Noodle itself and from <code>noodle-skin://</code>.</li>
+<li>No files outside the skin's folder, and no file types beyond the list above. The zip reader refuses paths with <code>..</code>, backslashes or a leading <code>/</code>.</li>
+<li>No <code>@import</code> (it could load other files), no <code>@layer</code> (see below) and no functions that fetch by name.</li>
+<li>No backslash escapes outside strings, since they could spell a blocked name in a way a simple check would miss.</li>
+<li>No skins that need a newer Noodle than yours, since they might rely on tokens or classes that don't exist yet.</li>
+</ul>
+<p>Some parts of the window are protected. Permission prompts, agent approval cards and waits, the agent bypass flag, the address field, download warnings and the Keep and Revert bar have their key styles in a cascade layer that skins can't override or join. A skin can't hide them, make them transparent, move them off screen, reword them or cover them, and the address field always uses the system's own field colours. Web pages are native views above the Noodle window, so nothing in a skin can draw over a page either. When the profile locks, the skin comes off and the unlock screen shows Noodle's own look.</p>
+<h2 id="skin-dev-mode">Skin dev mode</h2>
+<p>Settings &gt; Appearance &gt; Skin development &gt; Load skin folder picks an unpacked skin folder (the one holding <code>skin.json</code>) and shows it right away. Noodle watches the folder and reloads the skin about 150 ms after any file in it changes, pictures and fonts included, so you can keep your editor and Noodle side by side.</p>
+<ul>
+<li>Errors and warnings show under the button, worded the same as the command line checker. An error (broken JSON, a backslash escape, a file type Noodle refuses) stops the reload, and the last version that loaded stays on screen until you fix it.</li>
+<li>Nothing is installed or saved. Stop puts your own skin back, and so does restarting Noodle.</li>
+<li>Reload reads the folder again by hand, for editors that save in ways the watcher misses.</li>
+<li>Files and folders starting with <code>.</code> are skipped, so a <code>.git</code> folder or editor swap files don't get in the way.</li>
+</ul>
+<h2 id="checking-and-packing-from-the-command-line">Checking and packing from the command line</h2>
+<p>Run these from inside a checkout of the Noodle source (Node 22.18 or newer). Relative paths count from the folder you type the command in; a skin folder outside the checkout needs its full path, like <code>C:/skins/harbor</code>.</p>
+<pre class="sh"><code>npm run skin -- validate path/to/my-skin
+npm run skin -- validate my-skin.skin other-skin
+npm run skin -- validate C:/skins/harbor
+npm run skin -- pack path/to/my-skin
+npm run skin -- pack path/to/my-skin --out dist/my-skin.skin</code></pre>
+<p><code>validate</code> takes folders and <code>.skin</code> files, prints each skin's problems and exits with 1 if any skin would be refused. <code>pack</code> checks the folder first and writes <code>&lt;folder name&gt;.skin</code> in the folder you ran it from (or the <code>--out</code> path) only when there are no errors. Both use <code>src/main/skins/validate.ts</code>, the same code Noodle runs when it installs a skin and in skin dev mode, so the messages match. A run looks like this:</p>
+<pre class="text"><code>ok   Starter 1.0.0 (1.6 KB, 3 files)
+FAIL Night Shift 1.0.0 (2.1 KB, 2 files)
+     warning: skin.json: tokens has &quot;acent&quot;, which isn&#39;t a Noodle token.
+     error: skin.css uses a backslash escape outside a string, which skins may not.</code></pre>
+<h2 id="building-a-skin-from-scratch">Building a skin from scratch</h2>
+<p>This builds a small dark and light skin called Harbor. The result is close to <a href="https://github.com/udaysinh-git/noodle/blob/main/docs/examples/skins/starter"><code>examples/skins/starter</code></a>, so you can compare.</p>
+<ol type="1">
+<li><p>Make a folder named <code>harbor</code> anywhere (this guide uses <code>C:/skins/harbor</code>), and in it a file named <code>skin.json</code>:</p>
+<pre class="json"><code>{
+  &quot;name&quot;: &quot;Harbor&quot;,
+  &quot;author&quot;: &quot;Your name&quot;,
+  &quot;mode&quot;: &quot;dark&quot;,
+  &quot;tokens&quot;: {
+    &quot;bg&quot;: &quot;#12161a&quot;,
+    &quot;surface&quot;: &quot;#1a2026&quot;,
+    &quot;accent&quot;: &quot;#5fc490&quot;
+  }
+}</code></pre></li>
+<li><p>In Noodle, open Settings &gt; Appearance, scroll to Skin development and choose Load skin folder. Pick <code>harbor</code>. The window turns blue-gray with a green accent. Everything you didn't set keeps Noodle's value.</p></li>
+<li><p>Change <code>"accent"</code> to <code>"#e0b252"</code> and save the file. Noodle reloads the skin as soon as the file is written. Add <code>"text"</code>, <code>"muted"</code> and <code>"accent-text"</code> (the text on accent buttons) to suit. <a href="#tokens">Tokens</a> says what each name colours; most skins need ten or so.</p></li>
+<li><p>Give it a light version. Change <code>"mode"</code> to <code>"both"</code> and split <code>tokens</code> in two:</p>
+<pre class="json"><code>{
+  &quot;name&quot;: &quot;Harbor&quot;,
+  &quot;author&quot;: &quot;Your name&quot;,
+  &quot;mode&quot;: &quot;both&quot;,
+  &quot;tokens&quot;: {
+    &quot;dark&quot;: { &quot;bg&quot;: &quot;#12161a&quot;, &quot;surface&quot;: &quot;#1a2026&quot;, &quot;accent&quot;: &quot;#5fc490&quot; },
+    &quot;light&quot;: { &quot;bg&quot;: &quot;#e9eef0&quot;, &quot;surface&quot;: &quot;#ffffff&quot;, &quot;accent&quot;: &quot;#1f8a57&quot; }
+  }
+}</code></pre>
+<p>Switch Settings &gt; Appearance &gt; Theme between Dark and Light to check both.</p></li>
+<li><p>Round the corners a bit more: add <code>"radius": "12px"</code> and <code>"radius-sm": "8px"</code> to both sets. The page views follow <code>radius</code> too.</p></li>
+<li><p>Now some CSS. Make <code>skin.css</code> next to <code>skin.json</code>:</p>
+<pre class="css"><code>.tab.active {
+  box-shadow: inset 3px 0 0 var(--accent);
+}</code></pre>
+<p>With <code>var(--accent)</code> the bar follows the dark or light accent by itself.</p></li>
+<li><p>Add a picture. Make a folder <code>assets</code> and save this as <code>assets/dots.svg</code>:</p>
+<pre class="xml"><code>&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;12&quot; height=&quot;12&quot; viewBox=&quot;0 0 12 12&quot;&gt;
+  &lt;circle cx=&quot;6&quot; cy=&quot;6&quot; r=&quot;0.9&quot; fill=&quot;#808080&quot; fill-opacity=&quot;0.35&quot; /&gt;
+&lt;/svg&gt;</code></pre>
+<p>Then use it in <code>skin.css</code>:</p>
+<pre class="css"><code>.sidebar {
+  background-image: url(&#39;assets/dots.svg&#39;);
+  background-size: 12px 12px;
+}</code></pre>
+<p>If the path is wrong, dev mode warns that the <code>url()</code> was removed.</p></li>
+<li><p>A font, if you want one: put a WOFF2 file in <code>assets/</code>, list it in <code>skin.json</code>, and use it in <code>font-ui</code> with a system font after it:</p>
+<pre class="json"><code>{
+  &quot;fonts&quot;: [{ &quot;family&quot;: &quot;Harbor Sans&quot;, &quot;src&quot;: &quot;assets/harbor-sans.woff2&quot;, &quot;weight&quot;: &quot;400&quot; }]
+}</code></pre>
+<p>and in each token set, <code>"font-ui": "'Harbor Sans', system-ui, sans-serif"</code>.</p></li>
+<li><p>Suggest a layout or page effects if the skin is meant for them, for example <code>"layout": { "gap": 10 }</code>. People get a button to accept the suggestion; nothing changes on its own.</p></li>
+<li><p>Fill in <code>version</code>, <code>description</code> and <code>license</code>, then check and pack it. Run these from inside your Noodle checkout and give the skin folder's full path; <code>pack</code> writes <code>harbor.skin</code> in the folder you run it from.</p>
+<pre class="sh"><code>npm run skin -- validate C:/skins/harbor
+npm run skin -- pack C:/skins/harbor</code></pre>
+<p>Without the Noodle source, use the skin editor's Save as .skin instead, or zip the folder's contents yourself and rename the zip to <code>harbor.skin</code>.</p></li>
+<li><p>Choose Stop under Skin development, then install <code>harbor.skin</code> the way anyone else would (Install skin, or drop it on the window) and press Keep. Now you can send the file to others.</p></li>
+</ol>
+<h2 id="how-classic-98-is-made">How Classic 98 is made</h2>
+<p>Classic 98 (<code>resources/skins/classic-98</code>) is the most detailed built-in skin, and almost all of it is plain CSS.</p>
+<h3 id="tokens-do-most-of-the-work">Tokens do most of the work</h3>
+<p><code>skin.json</code> sets <code>"mode": "light"</code> and about forty tokens. The gray <code>#c0c0c0</code> goes in <code>bg</code>, <code>elevated</code>, <code>card</code>, <code>active</code>, <code>sidebar-bg</code> and <code>tab-active-bg</code>; fields are white through <code>surface</code> and <code>input-bg</code>. <code>accent</code> and <code>selection</code> are navy (<code>#000080</code>), as on the real thing. The corners are square, nothing animates, and the shadows are hard offsets with no blur:</p>
+<pre class="json"><code>{
+  &quot;tokens&quot;: {
+    &quot;radius&quot;: &quot;0px&quot;,
+    &quot;radius-sm&quot;: &quot;0px&quot;,
+    &quot;shadow&quot;: &quot;2px 2px 0 #000000&quot;,
+    &quot;shadow-lg&quot;: &quot;3px 3px 0 #000000&quot;,
+    &quot;duration&quot;: &quot;0ms&quot;
+  }
+}</code></pre>
+<p><code>titlebar</code> is <code>#1084d0</code> and <code>titlebar-symbol</code> is white for the moment before the skin's own buttons take over: Classic 98 asks for <code>window-buttons</code>, so after a restart Noodle draws gray beveled minimize, maximize and close keys on the blue strip, with close set a little apart. They gray out the strip when the window loses focus.</p>
+<pre class="css"><code>.wc-button {
+  width: 18px;
+  height: 16px;
+  color: #000000;
+  background: #c0c0c0;
+  box-shadow:
+    inset -1px -1px #0a0a0a,
+    inset 1px 1px #ffffff,
+    inset -2px -2px #808080,
+    inset 2px 2px #dfdfdf;
+}</code></pre>
+<h3 id="a-pixel-font">A pixel font</h3>
+<p>The skin ships Pixelify Sans (Open Font License, with <code>assets/OFL.txt</code> next to it) in two weights and points <code>font-ui</code> at it, with Segoe UI as the fallback:</p>
+<pre class="json"><code>{
+  &quot;fonts&quot;: [
+    { &quot;family&quot;: &quot;Pixelify Sans&quot;, &quot;src&quot;: &quot;assets/pixelify-sans-400.woff2&quot;, &quot;weight&quot;: &quot;400&quot; },
+    { &quot;family&quot;: &quot;Pixelify Sans&quot;, &quot;src&quot;: &quot;assets/pixelify-sans-700.woff2&quot;, &quot;weight&quot;: &quot;700&quot; }
+  ]
+}</code></pre>
+<p><code>skin.css</code> turns off font smoothing on <code>.app</code> so the pixels stay sharp.</p>
+<h3 id="the-bevel">The bevel</h3>
+<p>Every raised control uses the same four inset shadows: white and light gray on the top and left edges, dark gray and near black on the bottom and right. A pressed control swaps them. No pictures needed:</p>
+<pre class="css"><code>.button {
+  border: 0;
+  border-radius: 0;
+  background: #c0c0c0;
+  box-shadow:
+    inset -1px -1px #0a0a0a,
+    inset 1px 1px #ffffff,
+    inset -2px -2px #808080,
+    inset 2px 2px #dfdfdf;
+}
+
+.button:active:not(:disabled) {
+  box-shadow:
+    inset -1px -1px #ffffff,
+    inset 1px 1px #0a0a0a,
+    inset -2px -2px #dfdfdf,
+    inset 2px 2px #808080;
+}</code></pre>
+<p>Fields (<code>.address-input</code>, <code>.palette-input</code>) use the pressed order, which makes them look sunken. Tabs and bookmarks are raised buttons, and the active tab is pressed in. The page area (<code>.content</code>) gets the sunken bevel and 2 px of padding, so the page sits in a frame.</p>
+<h3 id="the-title-strip-and-the-dither">The title strip and the dither</h3>
+<p>The top bar, the tab strip, the sidebar header and the settings header get the navy to blue gradient, <code>linear-gradient(90deg, #000080, #1084d0)</code>, with white text. The checkered fill of a pressed tab and of scrollbar tracks is a 2 px conic gradient, again with no picture:</p>
+<pre class="css"><code>.tab.active {
+  background: #c0c0c0 repeating-conic-gradient(#ffffff 0 25%, #c0c0c0 0 50%) 0 0 / 2px 2px;
+}</code></pre>
+<h3 id="the-start-menu-palette">The start menu palette</h3>
+<p>The command palette gets a strip down its left side with "Noodle 98" written upwards. It is a <code>::before</code> element with <code>writing-mode: vertical-rl</code>, turned 180 degrees, over the same gradient running bottom to top. The palette gets 30 px of left padding to make room.</p>
+<h3 id="scrollbars">Scrollbars</h3>
+<p>The scrollbars are 16 px wide with raised thumbs and buttons and dithered tracks, drawn with the <code>::-webkit-scrollbar</code> pseudo-elements and the same bevel.</p>
+<h3 id="suggestions">Suggestions</h3>
+<p>The skin suggests <code>"layout": { "radius": 0, "gap": 6, "motion": "none" }</code>, so square corners stick even if the user had set their own radius. It suggests a light CRT for pages (<code>curvature</code> 0.35, <code>scanlines</code> 0.35, <code>glow</code> 0.25, <code>flicker</code> 0.1, <code>mask</code> 0.3) and asks for <code>sounds</code> and <code>window-buttons</code>. The suggestions and sounds wait until the user accepts them; the window buttons follow the skin from the next start.</p>
+<p>To take it apart yourself, copy <code>resources/skins/classic-98</code> somewhere, load the copy in skin dev mode and start changing things.</p>
+<h2 id="the-skin-editor">The skin editor</h2>
+<p>Settings &gt; Appearance &gt; Skin editor starts from the skin you use, with colour pickers and sliders for every token and a box for extra CSS, all applied live. "Add to my skins" installs it; "Save as .skin" writes the file to share. A skin made in the editor keeps the CSS, fonts and pictures of the skin it started from. For anything beyond colours, skin dev mode with your own editor is quicker.</p>
+
+        <aside class="doc-more" aria-label="More docs">
+          <h2>More guides</h2>
+          <ul><li><a href="/docs/userscripts/">Userscripts guide</a></li><li><a href="/docs/agents/">Agents guide</a></li><li><a href="/docs/">All docs</a></li></ul>
+          <p class="muted">This page is built from <a href="https://github.com/udaysinh-git/noodle/blob/main/docs/skins.md">docs/skins.md</a> in the Noodle repository.</p>
+        </aside>
+      </article>
+
+  </div>
+</main>
+<div class="wrap">
+  <footer class="foot">
+      <section class="foot-launch" aria-labelledby="launch-title">
+        <div>
+          <p class="label" id="launch-title">Launching 5 November</p>
+          <div class="countdown small" data-countdown>
+          <p class="cd-date">Launching <time datetime="2026-11-05T18:00:00+05:30">Thursday 5 November 2026, 6:00 PM India time</time>.<span class="cd-local needs-js"></span></p>
+          <ol class="cd-units needs-js" aria-hidden="true"><li><span class="cd-num" data-unit="d">00</span><span class="cd-label">days</span></li><li><span class="cd-num" data-unit="h">00</span><span class="cd-label">hours</span></li><li><span class="cd-num" data-unit="m">00</span><span class="cd-label">minutes</span></li><li><span class="cd-num" data-unit="s">00</span><span class="cd-label">seconds</span></li></ol>
+          <p class="visually-hidden needs-js" role="timer" data-cd-text></p>
+          <p class="cd-done" hidden>Noodle is out now. <a href="/download.html">Get it here</a>.</p>
+        </div>
+        </div>
+        <div class="foot-launch-actions">
+          <a class="btn btn-ghost needs-js" data-ics hidden>Add to calendar</a>
+        </div>
+      </section>
+      <div class="foot-grid">
+        <div>
+          <p class="foot-maker">A product by <a href="https://kurolabs.in" rel="noopener">Kuro Labs</a></p>
+          <p>Noodle is licensed under the <a href="https://github.com/udaysinh-git/noodle/blob/main/LICENSE">GNU AGPL 3.0</a>.</p>
+          <p>This site sets no cookies, runs no analytics and loads nothing from other servers.</p>
+        </div>
+        <ul class="foot-links">
+          <li><a href="/features/">Features</a></li>
+          <li><a href="/compare/">Noodle compared</a></li>
+          <li><a href="/faq/">FAQ</a></li>
+          <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/docs/">Docs</a></li>
+          <li><a href="https://github.com/udaysinh-git/noodle">Source on GitHub</a></li>
+          <li><a href="https://github.com/udaysinh-git/noodle/issues">Report a bug</a></li>
+        </ul>
+      </div>
+      <p style="margin-top:22px">Screenshots show Big Buck Bunny (Blender Foundation, CC BY 3.0) and pages from Wikipedia, MDN Web Docs, Project Gutenberg and Wikimedia Commons. Type is set in Bricolage Grotesque, Atkinson Hyperlegible and VT323, all under the <a href="/assets/fonts/OFL-atkinson-hyperlegible.txt">SIL Open Font License</a>.</p>
+    </footer>
+</div>
+</body>
+</html>

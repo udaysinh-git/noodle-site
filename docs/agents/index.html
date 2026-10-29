@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en" data-launch="2026-11-05T18:00:00+05:30" data-base="/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connect AI agents to Noodle over MCP</title>
+<meta name="description" content="Set up Noodle's built-in MCP server for AI agents: connecting a client, every tool and result, approvals, limits and fast agent loops.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#111014" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f3ed" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://noodle.udaysinh.me/docs/agents/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Noodle">
+<meta property="og:locale" content="en">
+<meta property="og:title" content="Connect AI agents to Noodle over MCP">
+<meta property="og:description" content="Set up Noodle's built-in MCP server for AI agents: connecting a client, every tool and result, approvals, limits and fast agent loops.">
+<meta property="og:url" content="https://noodle.udaysinh.me/docs/agents/">
+<meta property="og:image" content="https://noodle.udaysinh.me/assets/og/docs-agents.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Connect AI agents to Noodle over MCP, with a screenshot of the Noodle browser">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Connect AI agents to Noodle over MCP">
+<meta name="twitter:description" content="Set up Noodle's built-in MCP server for AI agents: connecting a client, every tool and result, approvals, limits and fast agent loops.">
+<meta name="twitter:image" content="https://noodle.udaysinh.me/assets/og/docs-agents.jpg">
+<meta name="twitter:image:alt" content="Connect AI agents to Noodle over MCP, with a screenshot of the Noodle browser">
+<link rel="preload" href="/assets/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('noodle-site-theme');if(t==='light'||t==='dark')d.dataset.theme=t;var s=localStorage.getItem('noodle-site-skin');if(s==='98'||s==='phosphor'||s==='paper')d.dataset.skin=s}catch(e){}
+var O=['index','features','skins','compare','docs','faq','privacy','download'],R=matchMedia('(prefers-reduced-motion: reduce)');
+function P(u){try{return new URL(u).pathname.split('/').filter(Boolean)[0]||'index'}catch(e){return 'index'}}
+function H(){document.querySelectorAll('.page-shot').forEach(function(el){var r=el.getBoundingClientRect();if(!r.width)return;el.style.viewTransitionName=r.bottom>0&&r.top<innerHeight?'':'none'})}
+addEventListener('pageswap',function(e){if(e.viewTransition)H()});
+addEventListener('pagereveal',function(e){var v=e.viewTransition;if(!v)return;if(R.matches){v.skipTransition();return}H();var a=window.navigation&&navigation.activation;if(a&&a.from&&a.entry){var f=O.indexOf(P(a.from.url)),t=O.indexOf(P(a.entry.url));var b=a.navigationType==='traverse'?t<f:f>t&&t!==-1;v.types&&v.types.add(b?'back':'forward')}})})();</script>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/assets/*"}},{"not":{"href_matches":"*.ics"}}]},"eagerness":"moderate"}]}</script>
+<script src="/assets/site.js" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://noodle.udaysinh.me/#website","name":"Noodle","url":"https://noodle.udaysinh.me/","publisher":{"@id":"https://noodle.udaysinh.me/#kurolabs"},"inLanguage":"en"},{"@type":"Organization","@id":"https://noodle.udaysinh.me/#kurolabs","name":"Kuro Labs","url":"https://kurolabs.in","sameAs":["https://github.com/udaysinh-git"]},{"@type":"TechArticle","headline":"Connect AI agents to Noodle over MCP","description":"Set up Noodle's built-in MCP server for AI agents: connecting a client, every tool and result, approvals, limits and fast agent loops.","url":"https://noodle.udaysinh.me/docs/agents/","author":{"@id":"https://noodle.udaysinh.me/#kurolabs"},"publisher":{"@id":"https://noodle.udaysinh.me/#kurolabs"},"about":{"@id":"https://noodle.udaysinh.me/#app"},"dateModified":"2026-10-29","inLanguage":"en"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://noodle.udaysinh.me/"},{"@type":"ListItem","position":2,"name":"Docs","item":"https://noodle.udaysinh.me/docs/"},{"@type":"ListItem","position":3,"name":"Agents guide","item":"https://noodle.udaysinh.me/docs/agents/"}]}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="/"><img src="/assets/logo.svg" width="30" height="30" alt="">Noodle</a>
+    <nav class="nav" aria-label="Site"><ul><li><a href="/features/">Features</a></li><li><a href="/skins/">Skins</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li><li><a href="/faq/">FAQ</a></li><li><a href="/download/">Download</a></li></ul></nav>
+    <button class="theme-toggle needs-js" type="button" data-action="theme" aria-label="Switch theme"><span class="icon-dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><span class="icon-light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></span></button>
+  </div>
+</header>
+<main id="main">
+  <div class="wrap">
+      <article class="doc">
+        <p class="label"><a href="/docs/">Docs</a> / Agents guide</p>
+        <h1 id="agents">Agents</h1>
+<p>Noodle has a built-in MCP server. An agent connected to it drives real tabs in your profile, with your logins, through a small set of tools built to need few turns and few tokens: snapshots with short element refs, batched actions that return only what changed, and typed answers from the DOM that take milliseconds.</p>
+<p>The server is off until you turn it on, and it only listens on 127.0.0.1.</p>
+<h2 id="connecting-an-agent">Connecting an agent</h2>
+<p>Turn it on in Settings &gt; Agent. The section shows the status, the port (47821 unless you change it), a token, and two snippets ready to copy. The server's address is <code>http://127.0.0.1:47821/mcp</code> (Streamable HTTP), and every request needs the token as a bearer header.</p>
+<p>A client that speaks HTTP needs the address and the header:</p>
+<pre class="json"><code>{
+  &quot;type&quot;: &quot;http&quot;,
+  &quot;url&quot;: &quot;http://127.0.0.1:47821/mcp&quot;,
+  &quot;headers&quot;: { &quot;Authorization&quot;: &quot;Bearer &lt;token&gt;&quot; }
+}</code></pre>
+<p>Clients that only start local commands use the stdio bridge that ships with Noodle (<code>resources/noodle-mcp.mjs</code>, needs Node 18 or later and nothing else). Settings &gt; Agent fills in the bridge's real path:</p>
+<pre class="json"><code>{
+  &quot;mcpServers&quot;: {
+    &quot;noodle&quot;: {
+      &quot;command&quot;: &quot;node&quot;,
+      &quot;args&quot;: [&quot;&lt;path from Settings&gt;/noodle-mcp.mjs&quot;],
+      &quot;env&quot;: {
+        &quot;NOODLE_MCP_URL&quot;: &quot;http://127.0.0.1:47821/mcp&quot;,
+        &quot;NOODLE_MCP_TOKEN&quot;: &quot;&lt;token&gt;&quot;
+      }
+    }
+  }
+}</code></pre>
+<p>Any other MCP client works the same way: point it at the address with the header, or start the bridge. The bridge reconnects on its own when Noodle restarts or the token changes.</p>
+<p>New token in Settings closes every open session. The server refuses requests whose Host or Origin isn't the loopback address with its port, bodies over 4 MB, and more than 16 sessions.</p>
+<h2 id="how-results-look">How results look</h2>
+<p>Every tool result starts with a status line, and carries the same status in <code>structuredContent</code>, so a harness can branch without reading the text:</p>
+<pre class="text"><code>status: navigated
+done: 2/2
+tab 3 | Search results | https://duckduckgo.com/?q=noodle
+...</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ok</code></td>
+<td>Done</td>
+</tr>
+<tr>
+<td><code>navigated</code></td>
+<td><code>act</code> finished and the page changed to another document</td>
+</tr>
+<tr>
+<td><code>element_not_found</code></td>
+<td>A ref, selector or search found nothing</td>
+</tr>
+<tr>
+<td><code>waiting_for_human</code></td>
+<td>A CAPTCHA is in the way; you have been asked to solve it</td>
+</tr>
+<tr>
+<td><code>blocked_by_policy</code></td>
+<td>Refused: you denied it, it is outside the allowed sites, or Stop is on</td>
+</tr>
+<tr>
+<td><code>timeout</code></td>
+<td>A wait or script ran out of time</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Anything else, with a message</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>structuredContent</code> also holds <code>tab_id</code> for tools that work on a tab, plus a few tool-specific fields listed below.</p>
+<h2 id="tools">Tools</h2>
+<p>Most tools take an optional <code>tab_id</code>. Without it they use the last tab the session used.</p>
+<h3 id="list_tabs">list_tabs</h3>
+<p>No input. One line per tab: id, space, title, URL and flags (<code>current</code>, <code>shown to user</code>, <code>loading</code>, <code>unloaded</code>, an error). Tabs on sites outside the allowed list show no title or URL. Result field: <code>tab_count</code>.</p>
+<h3 id="open_tab">open_tab</h3>
+<p><code>url</code> (an address or search words), <code>snapshot</code> (default true), <code>max_tokens</code> (default 1500). Opens a tab in the Agent space, waits for it to load (up to 10 seconds) and returns a snapshot.</p>
+<h3 id="close_tab">close_tab</h3>
+<p><code>tab_id</code>. Closing a tab the agent didn't open asks you first.</p>
+<h3 id="snapshot">snapshot</h3>
+<p><code>max_tokens</code> (default 3000), <code>selector</code> (CSS, only that part of the page), <code>viewport_only</code>. The visible, interactive elements with refs, plus headings, landmarks and key text:</p>
+<pre class="text"><code>tab 3 | Example Domain | https://example.com/
+scroll 0/600 (viewport 600)
+# Example Domain
+This domain is for use in illustrative examples in documents.
+[e1] link &quot;More information...&quot;</code></pre>
+<p>Refs last until the page navigates. Over the budget, plain text is dropped first, then the list is cut with a note saying how to get the rest.</p>
+<h3 id="act">act</h3>
+<p><code>actions</code> (1 to 30, run in order), <code>max_tokens</code> for the diff (default 1500), <code>settle_ms</code> (default 5000). Actions:</p>
+<pre class="json"><code>[
+  { &quot;click&quot;: &quot;e4&quot; },
+  { &quot;type&quot;: &quot;e7&quot;, &quot;text&quot;: &quot;noodle browser&quot;, &quot;submit&quot;: true },
+  { &quot;press&quot;: &quot;Escape&quot; },
+  { &quot;select&quot;: &quot;e9&quot;, &quot;value&quot;: &quot;Large&quot; },
+  { &quot;scroll&quot;: &quot;down&quot;, &quot;amount&quot;: 2 },
+  { &quot;hover&quot;: &quot;e12&quot; },
+  { &quot;navigate&quot;: &quot;https://example.com&quot; },
+  { &quot;back&quot;: true },
+  { &quot;wait&quot;: 500, &quot;for&quot;: &quot;Results&quot;, &quot;timeout&quot;: 8000 }
+]</code></pre>
+<p>Clicks and typing are real input events at the element, after scrolling it into view; <code>force: true</code> clicks from script when something covers the element. The batch stops at the first failure. After the last action Noodle waits until the network is idle and the DOM has been quiet, then returns <code>done: n/m</code> and either a diff (<code>+</code> added, <code>-</code> removed, <code>~</code> changed) or, after a navigation, a fresh snapshot. Result field: <code>navigated</code>.</p>
+<h3 id="read_page">read_page</h3>
+<p><code>selector</code>, <code>max_tokens</code> (default 6000). The page as Markdown. On pages that read as articles it returns the same text reader view shows.</p>
+<h3 id="find">find</h3>
+<p><code>query</code>, <code>regex</code>, <code>max_results</code> (default 20). Matches with context and the ref of the nearest element. Result field: <code>total</code>.</p>
+<h3 id="extract">extract</h3>
+<p>Either <code>selector</code> with an optional <code>attr</code> for a list of values, or <code>item_selector</code> with <code>fields</code> for a list of objects. <code>limit</code> up to 500.</p>
+<pre class="json"><code>{
+  &quot;item_selector&quot;: &quot;.result&quot;,
+  &quot;fields&quot;: {
+    &quot;title&quot;: &quot;h2&quot;,
+    &quot;link&quot;: { &quot;selector&quot;: &quot;a&quot;, &quot;attr&quot;: &quot;href&quot; },
+    &quot;tags&quot;: { &quot;selector&quot;: &quot;.tag&quot;, &quot;all&quot;: true }
+  }
+}</code></pre>
+<p>Returns <code>{"count": n, "data": [...]}</code>. Result field: <code>count</code>.</p>
+<h3 id="check">check</h3>
+<p>Typed answers from the DOM, usually in 10 to 50 ms. Ask several at once:</p>
+<ul>
+<li><code>exists</code>: <code>{ ref }</code>, <code>{ text }</code> or <code>{ selector }</code>. Answers <code>{ exists, visible, count }</code>.</li>
+<li><code>element</code>: a ref. Answers tag, role, name, visible, in_viewport, enabled, checked, value (password fields only say whether they are filled), text and href.</li>
+<li><code>page_state: true</code>. Answers <code>{ state, evidence, also }</code>, where state is one of <code>loaded</code>, <code>loading</code>, <code>captcha</code>, <code>error_page</code>, <code>login_wall</code>, <code>paywall</code>, <code>cookie_banner</code> or <code>unknown</code>.</li>
+<li><code>is_sensitive</code>: one <code>act</code> action, classified and not run. Answers <code>{ sensitive, blocked, category, reason, verdict }</code>.</li>
+</ul>
+<pre class="json"><code>{ &quot;page_state&quot;: true, &quot;exists&quot;: { &quot;text&quot;: &quot;Sign out&quot; }, &quot;is_sensitive&quot;: { &quot;click&quot;: &quot;e5&quot; } }</code></pre>
+<p>The answers are also in <code>structuredContent</code>, next to <code>status</code>.</p>
+<h3 id="devtools">devtools</h3>
+<p><code>network</code> and <code>console</code> (both default true), <code>cookies</code> (names and flags, never values), <code>filter</code>, <code>errors_only</code>, <code>limit</code> (default 50 per list). Requests and console messages from the time the agent used the tab.</p>
+<h3 id="screenshot">screenshot</h3>
+<p><code>max_width</code> (default 1280). A PNG of the tab. The text tools are cheaper; use this when they aren't enough.</p>
+<h3 id="tools-from-userscripts">Tools from userscripts</h3>
+<p>Userscripts can add their own tools, named <code>scriptname.toolname</code>. They show up in the tool list once the script has run on a page, and the list changes (with a <code>tools/list_changed</code> notification) when scripts are turned on, off or edited. See <a href="/docs/userscripts/#tools-for-agents">userscripts.md</a>.</p>
+<h2 id="approvals">Approvals</h2>
+<p>A local rule engine classifies every action before it runs. Nothing about the page leaves your machine for this. Actions that look like a purchase, a payment field, sending a message, deleting something, a download, the first form submit to a site, or closing one of your own tabs are sensitive, and so is every call to a userscript tool.</p>
+<p>A sensitive action shows a card in the agent panel in the sidebar: what it will do, the element, the site and the reason, with a two minute countdown. Passwords and secret-looking fields show as dots and card numbers as their last four digits. The answers are Deny, Allow once, and Allow on the site for this session. With no answer in two minutes the call returns <code>blocked_by_policy</code>. When Noodle isn't focused, the taskbar flashes and a notification appears.</p>
+<p>Allow on a site is kept until you restart or lock Noodle, and Settings &gt; Agent lists those grants with remove buttons.</p>
+<h3 id="bypass">Bypass</h3>
+<p>Settings &gt; Agent &gt; Sensitive actions has two choices: Ask me first (the default) and Bypass, never ask. The command palette can switch it too. With bypass on, sensitive actions run without asking, and a "Bypass" label stays in the top bar the whole time. Allowed sites and blocked addresses still apply, and Stop still works.</p>
+<h2 id="allowed-sites">Allowed sites</h2>
+<p>Settings &gt; Agent &gt; Allowed sites takes one site per line; <code>example.com</code> covers its subdomains too. Empty means any site. With a list set, agents can't open or navigate to other sites, and the reading tools refuse tabs that show one. Addresses other than http and https (<code>file:</code>, <code>chrome:</code> and the rest) are always refused.</p>
+<h2 id="stop">Stop</h2>
+<p>The stop button in the agent panel, the "Stop agents (kill switch)" palette command and <code>Ctrl+Shift+.</code> (<code>Cmd+Shift+.</code> on macOS) stop every agent at once. Calls in flight are aborted, waiting approvals are refused, pages being acted on stop loading, and new calls get <code>blocked_by_policy</code> until you press Resume. The shortcut only belongs to Noodle while an agent is connected or working; otherwise the page gets the key.</p>
+<h2 id="captchas">CAPTCHAs</h2>
+<p>Noodle never tries to solve a CAPTCHA. When <code>open_tab</code>, <code>act</code> or <code>check</code> finds one, the call returns <code>waiting_for_human</code>, the tab comes to the front with a banner, and you get a notification. Noodle checks every 1.5 seconds and clears the wait once the challenge is gone or solved, so the agent's next call works again. Invisible widgets, such as the reCAPTCHA badge, don't count.</p>
+<h2 id="what-you-see-while-an-agent-works">What you see while an agent works</h2>
+<p>The agent panel in the sidebar shows the status, the client's name and a log of calls, newest first. Click an entry to open its tab. Tabs the agent uses get an outline and a bot icon in the tab list and an "Agent" label in the top bar. The element being clicked or typed into gets a one second outline.</p>
+<h2 id="writing-fast-agent-loops">Writing fast agent loops</h2>
+<p>Turns cost more than anything else, so:</p>
+<ul>
+<li>Ask <code>check</code> before reaching for a snapshot. <code>{ "page_state": true }</code> tells you about a login wall or a cookie banner in one call, and <code>exists</code> answers "did my search load" without reading the page.</li>
+<li>Put a whole form in one <code>act</code>: type each field, then click submit. The diff that comes back is usually enough to plan the next step.</li>
+<li>Keep <code>max_tokens</code> low and use <code>selector</code> or <code>viewport_only</code> on long pages. Snapshots drop plain text first when over budget, so refs survive.</li>
+<li>Use <code>extract</code> for lists instead of reading the page and parsing the Markdown.</li>
+<li>Use <code>wait</code> with <code>for</code> inside <code>act</code> rather than polling with snapshots.</li>
+<li>Branch on <code>structuredContent.status</code>. <code>navigated</code> means your refs are gone and the result already holds the new snapshot.</li>
+</ul>
+<h2 id="limits">Limits</h2>
+<ul>
+<li>Cross-origin iframes and closed shadow roots are listed but not walked, so there are no refs inside them (embedded payment forms, for one).</li>
+<li>Permission prompts from agent tabs wait for you; <code>act</code> only mentions them.</li>
+<li>A link that downloads a file without looking like a download isn't caught by the rules.</li>
+<li>Typing into a payment field always asks, even if you said yes in the chat.</li>
+<li>Native <code>&lt;select&gt;</code> menus are set from script.</li>
+<li>While the window is minimized pages don't render: clicks and typing fall back to script (<code>act</code> says so) and screenshots fail.</li>
+<li>The stop shortcut only works inside Noodle, and Stop does not survive a restart.</li>
+</ul>
+
+        <aside class="doc-more" aria-label="More docs">
+          <h2>More guides</h2>
+          <ul><li><a href="/docs/skins/">Skins guide</a></li><li><a href="/docs/userscripts/">Userscripts guide</a></li><li><a href="/docs/">All docs</a></li></ul>
+          <p class="muted">This page is built from <a href="https://github.com/udaysinh-git/noodle/blob/main/docs/agents.md">docs/agents.md</a> in the Noodle repository.</p>
+        </aside>
+      </article>
+
+  </div>
+</main>
+<div class="wrap">
+  <footer class="foot">
+      <section class="foot-launch" aria-labelledby="launch-title">
+        <div>
+          <p class="label" id="launch-title">Launching 5 November</p>
+          <div class="countdown small" data-countdown>
+          <p class="cd-date">Launching <time datetime="2026-11-05T18:00:00+05:30">Thursday 5 November 2026, 6:00 PM India time</time>.<span class="cd-local needs-js"></span></p>
+          <ol class="cd-units needs-js" aria-hidden="true"><li><span class="cd-num" data-unit="d">00</span><span class="cd-label">days</span></li><li><span class="cd-num" data-unit="h">00</span><span class="cd-label">hours</span></li><li><span class="cd-num" data-unit="m">00</span><span class="cd-label">minutes</span></li><li><span class="cd-num" data-unit="s">00</span><span class="cd-label">seconds</span></li></ol>
+          <p class="visually-hidden needs-js" role="timer" data-cd-text></p>
+          <p class="cd-done" hidden>Noodle is out now. <a href="/download.html">Get it here</a>.</p>
+        </div>
+        </div>
+        <div class="foot-launch-actions">
+          <a class="btn btn-ghost needs-js" data-ics hidden>Add to calendar</a>
+        </div>
+      </section>
+      <div class="foot-grid">
+        <div>
+          <p class="foot-maker">A product by <a href="https://kurolabs.in" rel="noopener">Kuro Labs</a></p>
+          <p>Noodle is licensed under the <a href="https://github.com/udaysinh-git/noodle/blob/main/LICENSE">GNU AGPL 3.0</a>.</p>
+          <p>This site sets no cookies, runs no analytics and loads nothing from other servers.</p>
+        </div>
+        <ul class="foot-links">
+          <li><a href="/features/">Features</a></li>
+          <li><a href="/compare/">Noodle compared</a></li>
+          <li><a href="/faq/">FAQ</a></li>
+          <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/docs/">Docs</a></li>
+          <li><a href="https://github.com/udaysinh-git/noodle">Source on GitHub</a></li>
+          <li><a href="https://github.com/udaysinh-git/noodle/issues">Report a bug</a></li>
+        </ul>
+      </div>
+      <p style="margin-top:22px">Screenshots show Big Buck Bunny (Blender Foundation, CC BY 3.0) and pages from Wikipedia, MDN Web Docs, Project Gutenberg and Wikimedia Commons. Type is set in Bricolage Grotesque, Atkinson Hyperlegible and VT323, all under the <a href="/assets/fonts/OFL-atkinson-hyperlegible.txt">SIL Open Font License</a>.</p>
+    </footer>
+</div>
+</body>
+</html>

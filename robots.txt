@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://udaysinh-git.github.io/noodle-site/sitemap.xml
+Sitemap: https://noodle.udaysinh.me/sitemap.xml
