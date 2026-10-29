@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" data-launch="2026-11-05T18:00:00+05:30">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For developers | Noodle</title>
+<meta name="description" content="Connect an AI agent to Noodle over MCP, write userscripts that agents can call, make your own skins, or build Noodle from source.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#111014" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f3ed" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://udaysinh-git.github.io/noodle-site/developers.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Noodle">
+<meta property="og:title" content="For developers | Noodle">
+<meta property="og:description" content="Connect an AI agent to Noodle over MCP, write userscripts that agents can call, make your own skins, or build Noodle from source.">
+<meta property="og:url" content="https://udaysinh-git.github.io/noodle-site/developers.html">
+<meta property="og:image" content="https://udaysinh-git.github.io/noodle-site/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Noodle browser with a Wikipedia article open, next to the Noodle logo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="For developers | Noodle">
+<meta name="twitter:description" content="Connect an AI agent to Noodle over MCP, write userscripts that agents can call, make your own skins, or build Noodle from source.">
+<meta name="twitter:image" content="https://udaysinh-git.github.io/noodle-site/assets/og.jpg">
+<meta name="twitter:image:alt" content="The Noodle browser with a Wikipedia article open, next to the Noodle logo">
+<link rel="preload" href="assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('noodle-site-theme');if(t==='light'||t==='dark')d.dataset.theme=t;var s=localStorage.getItem('noodle-site-skin');if(s==='98'||s==='phosphor'||s==='paper')d.dataset.skin=s}catch(e){}})();</script>
+<link rel="stylesheet" href="assets/site.css">
+<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/noodle-site/*"},{"not":{"href_matches":"/noodle-site/*.ics"}}]},"eagerness":"moderate"}]}</script>
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="window">
+  <aside class="side" data-title="Noodle">
+    <a class="brand" href="./"><img src="assets/logo.svg" width="30" height="30" alt="">Noodle</a>
+    <div class="omnibox" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>noodle-site/<b>developers</b></span></div>
+    <p class="space-label" aria-hidden="true">Noodle</p>
+    <nav aria-label="Site">
+      <ul class="tabs">
+      <li><a href="./"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></a></li>
+      <li><a href="features.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Features</span></a></li>
+      <li><a href="skins.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M6 8h12M6 11h12" opacity=".55"/></svg><span>Skins</span></a></li>
+      <li><a href="developers.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg><span>For developers</span></a></li>
+      <li><a href="privacy.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg><span>Privacy</span></a></li>
+      <li><a href="download.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>Download</span></a></li>
+      </ul>
+    </nav>
+    <div class="side-foot">
+      <div class="tool-row">
+        <button class="tool tool-search needs-js" type="button" data-action="palette" aria-label="Go to a page (Ctrl K)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="tool-label">Go to</span><kbd>Ctrl K</kbd></button>
+        <button class="tool needs-js" type="button" data-action="theme" aria-label="Switch theme"><span class="theme-icon-dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><span class="theme-icon-light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></span></button>
+      </div>
+      <div class="skin-switch needs-js" role="group" aria-label="Skin for this site">
+        <span class="skin-switch-label" aria-hidden="true">Skin</span>
+        <button class="sw sw-noodle" type="button" data-action="skin" data-skin="noodle" aria-pressed="false" title="Noodle"><span class="visually-hidden">Noodle</span></button>
+        <button class="sw sw-98" type="button" data-action="skin" data-skin="98" aria-pressed="false" title="Classic 98"><span class="visually-hidden">Classic 98</span></button>
+        <button class="sw sw-phosphor" type="button" data-action="skin" data-skin="phosphor" aria-pressed="false" title="Phosphor"><span class="visually-hidden">Phosphor</span></button>
+        <button class="sw sw-paper" type="button" data-action="skin" data-skin="paper" aria-pressed="false" title="Paper"><span class="visually-hidden">Paper</span></button>
+      </div>
+      <p class="side-note">Free and open source, for Windows.</p>
+    </div>
+  </aside>
+  <main id="main" data-title="For developers">
+    <div class="wrap">
+      <section class="hero" style="padding-bottom:24px" aria-labelledby="d-title">
+        <p class="eyebrow">For developers</p>
+        <h1 id="d-title">Agents, scripts and skins.</h1>
+        <p class="lede">Noodle is open source under the AGPL. Three parts of it are made for you to extend, and each has full docs in the repository.</p>
+        <ul class="index-strip" aria-label="On this page"><li><a href="#agents">Agents</a></li><li><a href="#scripts">Userscripts</a></li><li><a href="#skins">Skins</a></li><li><a href="#build">Build from source</a></li></ul>
+      </section>
+
+      <section class="feature" id="agents" aria-labelledby="agents-title">
+        <div class="feature-text reveal">
+          <h2 id="agents-title">Connect an agent</h2>
+          <p>Turn the server on in Settings, Agent. It lives at <code>http://127.0.0.1:47821/mcp</code> (Streamable HTTP) and every request needs the token as a bearer header. Clients that only start local commands use the stdio bridge that ships with Noodle.</p>
+          <p>Every result starts with a typed status such as <code>navigated</code>, <code>element_not_found</code> or <code>waiting_for_human</code>, so a harness can branch without reading the text.</p>
+          <p><a class="more" href="https://github.com/udaysinh-git/noodle/blob/main/docs/agents.md">Agent docs and every tool <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></p>
+        </div>
+        <div class="reveal">
+          <figure class="shot page-shot"><img src="assets/shots/agent-approval-1600.webp" srcset="assets/shots/agent-approval-480.webp 480w, assets/shots/agent-approval-960.webp 960w, assets/shots/agent-approval-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 640px" width="1600" height="1002" alt="An approval card asking whether my-agent may click Place order on a checkout page" fetchpriority="high" decoding="async"></figure>
+          <pre style="margin-top:20px" aria-label="Settings for an MCP client"><code>{
+  "type": "http",
+  "url": "http://127.0.0.1:47821/mcp",
+  "headers": { "Authorization": "Bearer &lt;token&gt;" }
+}</code></pre>
+          <p class="muted" style="font-size:.95rem">Tools: <code>list_tabs</code>, <code>open_tab</code>, <code>close_tab</code>, <code>snapshot</code>, <code>act</code>, <code>read_page</code>, <code>find</code>, <code>extract</code>, <code>check</code>, <code>devtools</code>, <code>screenshot</code>, plus any your userscripts add.</p>
+        </div>
+      </section>
+
+      <section class="feature" id="scripts" aria-labelledby="scripts-title">
+        <div class="feature-text reveal">
+          <h2 id="scripts-title">Write a userscript</h2>
+          <p>Scripts for Tampermonkey and Violentmonkey run as they are. Noodle adds one thing on top: a script can register tools that agents call over MCP, after you approve.</p>
+          <p>The examples folder has a starter that shows an article's reading time, one that hides YouTube Shorts, and one that gives agents a <code>get_transcript</code> tool.</p>
+          <p><a class="more" href="https://github.com/udaysinh-git/noodle/blob/main/docs/userscripts.md">Userscript guide and GM API <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></p>
+        </div>
+        <pre class="reveal" aria-label="The header of an example userscript"><code>// ==UserScript==
+// @name         YouTube tools
+// @namespace    noodle.examples
+// @version      1.0
+// @match        https://www.youtube.com/*
+// @run-at       document-idle
+// @grant        noodle.tools
+// @noodle-tool-url https://www.youtube.com/
+// ==/UserScript==</code></pre>
+      </section>
+
+      <section class="feature" id="skins" aria-labelledby="skins-title">
+        <div class="feature-text reveal">
+          <h2 id="skins-title">Make a skin</h2>
+          <p>Copy the starter skin, change the tokens in <code>skin.json</code>, add CSS for anything the tokens don't cover, and run it in dev mode so every save reloads it. The guide lists every token and layout key, the page effects, and how Classic 98 was made.</p>
+          <p>A command line checker and packer run from a checkout of the source.</p>
+          <p><a class="more" href="https://github.com/udaysinh-git/noodle/blob/main/docs/skins.md">Skin guide <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></p>
+        </div>
+        <figure class="shot parallax"><img src="assets/shots/skins-1600.webp" srcset="assets/shots/skins-480.webp 480w, assets/shots/skins-960.webp 960w, assets/shots/skins-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 640px" width="1600" height="1006" alt="Classic 98, Phosphor, Paper and Glass 2000 side by side" loading="lazy" decoding="async"></figure>
+      </section>
+
+      <section class="feature wide" id="build" aria-labelledby="build-title">
+        <div class="feature-text reveal">
+          <h2 id="build-title">Build from source</h2>
+          <p>You need Node.js 22.12 or newer and Git. On Windows, install the Visual Studio Build Tools with the "Desktop development with C++" workload in case the SQLite module has to compile.</p>
+          <pre><code>git clone https://github.com/udaysinh-git/noodle.git
+cd noodle
+npm ci
+npm run dev</code></pre>
+          <p><code>npm run dist</code> builds an installer for the current platform. Contributors sign a contributor license agreement before their first pull request is merged, and <a href="https://github.com/udaysinh-git/noodle/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> explains it in plain words.</p>
+          <p><a class="more" href="https://github.com/udaysinh-git/noodle/blob/main/docs/building.md">Project layout and conventions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="docs-title">
+        <h2 id="docs-title" class="reveal">All the docs</h2>
+        <div class="cols reveal">
+          <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg><a href="https://github.com/udaysinh-git/noodle/blob/main/docs/agents.md">Agents</a></h3><p>Setup for common clients, every tool and result, approvals and limits.</p></div>
+          <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="m10 13-2 2 2 2M14 13l2 2-2 2"/></svg><a href="https://github.com/udaysinh-git/noodle/blob/main/docs/userscripts.md">Userscripts</a></h3><p>Writing scripts, the GM API and tools for agents.</p></div>
+          <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9.06 11.9 18.5 2.5a2.1 2.1 0 0 1 3 3l-9.4 9.4"/><path d="M7 14a3 3 0 0 0-3 3c0 1.5-1.5 2.5-2 3 3 1.5 7 0 7-3a3 3 0 0 0-2-3z"/></svg><a href="https://github.com/udaysinh-git/noodle/blob/main/docs/skins.md">Skins</a></h3><p>Every token and layout key, page effects and the skin CLI.</p></div>
+        </div>
+        <p style="margin-top:20px" class="muted">Also: <a href="https://github.com/udaysinh-git/noodle/blob/main/docs/downloads-and-media.md">downloads and media</a>, <a href="https://github.com/udaysinh-git/noodle/blob/main/docs/reader.md">reader view</a>, <a href="https://github.com/udaysinh-git/noodle/blob/main/docs/shortcuts.md">keyboard shortcuts</a> and <a href="https://github.com/udaysinh-git/noodle/blob/main/docs/building.md">building</a>.</p>
+      </section>
+
+    <footer class="foot">
+      <section class="foot-launch" aria-labelledby="launch-title">
+        <div>
+          <p class="eyebrow" id="launch-title"><span class="dot"></span>Launching 5 November</p>
+          <div class="countdown small" data-countdown>
+          <p class="cd-date">Launching <time datetime="2026-11-05T18:00:00+05:30">Thursday 5 November 2026, 6:00 PM India time</time>.<span class="cd-local needs-js"></span></p>
+          <ol class="cd-units needs-js" aria-hidden="true"><li><span class="cd-num" data-unit="d">00</span><span class="cd-label">days</span></li><li><span class="cd-num" data-unit="h">00</span><span class="cd-label">hours</span></li><li><span class="cd-num" data-unit="m">00</span><span class="cd-label">minutes</span></li><li><span class="cd-num" data-unit="s">00</span><span class="cd-label">seconds</span></li></ol>
+          <p class="visually-hidden needs-js" role="timer" data-cd-text></p>
+          <p class="cd-done" hidden>Noodle is out now. <a href="download.html">Get it here</a>.</p>
+        </div>
+        </div>
+        <div class="foot-launch-actions">
+          <a class="btn btn-ghost needs-js" data-ics hidden>Add to calendar</a>
+        </div>
+      </section>
+      <div class="foot-grid">
+        <div>
+          <p>Noodle is licensed under the <a href="https://github.com/udaysinh-git/noodle/blob/main/LICENSE">GNU AGPL 3.0</a>.</p>
+          <p>This site sets no cookies, runs no analytics and loads nothing from other servers.</p>
+        </div>
+        <ul class="foot-links">
+          <li><a href="https://github.com/udaysinh-git/noodle">GitHub</a></li>
+          <li><a href="https://github.com/udaysinh-git/noodle/releases">Releases</a></li>
+          <li><a href="https://github.com/udaysinh-git/noodle/blob/main/docs/README.md">Docs</a></li>
+          <li><a href="https://github.com/udaysinh-git/noodle/issues">Report a bug</a></li>
+        </ul>
+      </div>
+      <p style="margin-top:22px">Screenshots show Big Buck Bunny (Blender Foundation, CC BY 3.0) and pages from Wikipedia, MDN Web Docs, Project Gutenberg and Wikimedia Commons. Type is set in Bricolage Grotesque, Atkinson Hyperlegible, VT323 and Pixelify Sans, all under the <a href="assets/fonts/OFL-atkinson-hyperlegible.txt">SIL Open Font License</a>.</p>
+    </footer>
+    </div>
+  </main>
+</div>
+</body>
+</html>

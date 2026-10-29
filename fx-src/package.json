@@ -1,0 +1,12 @@
+{
+  "name": "noodle-site-fx",
+  "private": true,
+  "type": "module",
+  "description": "Builds assets/fx.js, the WebGPU effects for the Noodle site.",
+  "scripts": { "build": "node build.mjs" },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "vgpu": "0.6.0",
+    "@vgpu/wgsl": "0.6.0"
+  }
+}
